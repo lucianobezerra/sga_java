@@ -17,12 +17,5 @@ public class Usuario extends Model {
     validateEmailOf("email").message("Formato do Email Inválido!");
     validateWith(new UniquenessValidator("login"));
   }
-  
-  
-  
-  @Override
-  public String toString() {
-    return getString("nome");
-  }
 
 }

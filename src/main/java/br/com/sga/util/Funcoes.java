@@ -139,4 +139,8 @@ public class Funcoes {
   public static String getStatus(Boolean status) {
     return status ? "ATIVO" : "INATIVO";
   }
+  
+  public static boolean isNullOrBlank(String s){
+    return (s == null || s.trim().equals(""));
+  }
 }

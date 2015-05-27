@@ -2,6 +2,7 @@ package br.com.sga.ui;
 
 import br.com.sga.model.Usuario;
 import br.com.sga.model.UsuarioLogado;
+import br.com.sga.util.Criptografia;
 import java.awt.EventQueue;
 import javax.swing.JOptionPane;
 
@@ -67,11 +68,11 @@ public class Login extends javax.swing.JFrame {
 
   private void btOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOkActionPerformed
     String vLogin = txtLogin.getText().toLowerCase();
-    String vSenha = String.valueOf(txtSenha.getPassword()).toLowerCase();
-    Usuario usuario = Usuario.findFirst("login = ? and senha = md5(?)", vLogin, vSenha);
+    String vSenha = Criptografia.criptografar(String.valueOf(txtSenha.getPassword()).toLowerCase());
+    Usuario usuario = Usuario.findFirst("login = ? and senha = ?", vLogin, vSenha);
     if (usuario != null) {
       UsuarioLogado.getInstance().setId(usuario.getInteger("id"));
-      UsuarioLogado.getInstance().setName(usuario.getString("nome")); // 1517,00 / 2172,00
+      UsuarioLogado.getInstance().setName(usuario.getString("nome"));
       this.dispose();
       Menu menu = new Menu();
       menu.setVisible(true);

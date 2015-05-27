@@ -65,7 +65,6 @@ public class FrameUsuario extends javax.swing.JDialog {
     buttonSalvar = new javax.swing.JButton();
     buttonCancelar = new javax.swing.JButton();
     buttonExcluir = new javax.swing.JButton();
-    buttonPesquisar = new javax.swing.JButton();
     buttonSair = new javax.swing.JButton();
     txtEmail = new javax.swing.JTextField();
 
@@ -235,11 +234,16 @@ public class FrameUsuario extends javax.swing.JDialog {
         buttonNovoActionPerformed(evt);
       }
     });
-    jPanel2.add(buttonNovo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 50, -1));
+    jPanel2.add(buttonNovo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 60, 25));
 
-    buttonEdit.setIcon(new javax.swing.ImageIcon("C:\\projects\\sga\\src\\main\\resources\\images\\1432226749_icon-136-document-edit.png")); // NOI18N
+    buttonEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432226749_icon-136-document-edit.png"))); // NOI18N
     buttonEdit.setEnabled(false);
-    jPanel2.add(buttonEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 50, -1));
+    buttonEdit.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        buttonEditActionPerformed(evt);
+      }
+    });
+    jPanel2.add(buttonEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, 60, 25));
 
     buttonSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432224509_Save.png"))); // NOI18N
     buttonSalvar.setEnabled(false);
@@ -248,34 +252,30 @@ public class FrameUsuario extends javax.swing.JDialog {
         buttonSalvarActionPerformed(evt);
       }
     });
-    jPanel2.add(buttonSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 270, 50, -1));
+    jPanel2.add(buttonSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, 60, 25));
 
-    buttonCancelar.setIcon(new javax.swing.ImageIcon("C:\\projects\\sga\\src\\main\\resources\\images\\1432226831_cross.png")); // NOI18N
+    buttonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432226831_cross.png"))); // NOI18N
     buttonCancelar.setEnabled(false);
     buttonCancelar.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         buttonCancelarActionPerformed(evt);
       }
     });
-    jPanel2.add(buttonCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 270, 50, -1));
+    jPanel2.add(buttonCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 60, 25));
 
-    buttonExcluir.setIcon(new javax.swing.ImageIcon("C:\\projects\\sga\\src\\main\\resources\\images\\1432226877_delete-file.png")); // NOI18N
+    buttonExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432226877_delete-file.png"))); // NOI18N
     buttonExcluir.setEnabled(false);
-    jPanel2.add(buttonExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 50, -1));
-
-    buttonPesquisar.setIcon(new javax.swing.ImageIcon("C:\\projects\\sga\\src\\main\\resources\\images\\1432227457_folder-search.png")); // NOI18N
-    buttonPesquisar.setEnabled(false);
-    jPanel2.add(buttonPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 50, -1));
+    jPanel2.add(buttonExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, 60, 25));
 
     buttonSair.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    buttonSair.setIcon(new javax.swing.ImageIcon("C:\\projects\\sga\\src\\main\\resources\\images\\1432226915_22_exit.png")); // NOI18N
+    buttonSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432226915_22_exit.png"))); // NOI18N
     buttonSair.setText("Sair");
     buttonSair.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         buttonSairActionPerformed(evt);
       }
     });
-    jPanel2.add(buttonSair, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, 80, -1));
+    jPanel2.add(buttonSair, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, 80, 25));
     jPanel2.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 270, 20));
 
     jTabbedPane1.addTab("Cadastro", jPanel2);
@@ -295,9 +295,11 @@ public class FrameUsuario extends javax.swing.JDialog {
   }//GEN-LAST:event_buttonNovoActionPerformed
 
   private void buttonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvarActionPerformed
+    String wSenha = String.valueOf(txtSenha.getPassword()).toLowerCase();
+    String vSenha = Funcoes.isNullOrBlank(labelCodigo.getText()) ? Criptografia.criptografar(wSenha) :  wSenha;
     salvar(labelCodigo.getText(),
             txtLogin.getText().toLowerCase(),
-            txtSenha.getPassword().toString().toLowerCase(),
+            vSenha,
             txtNome.getText().toUpperCase(),
             txtEmail.getText().toLowerCase(),
             comboNivel.getSelectedIndex(),
@@ -311,16 +313,23 @@ public class FrameUsuario extends javax.swing.JDialog {
 
   private void txtPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyPressed
     if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-      preencheGrid(txtPesquisa.getText().toUpperCase(), onlyActive.isSelected(), bgOrdem.getSelection().getActionCommand());
+      fillTable(txtPesquisa.getText().toUpperCase(), onlyActive.isSelected(), bgOrdem.getSelection().getActionCommand());
     }
   }//GEN-LAST:event_txtPesquisaKeyPressed
 
   private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUsuariosMouseClicked
     if (evt.getClickCount() == 2) {
       int linha = tableUsuarios.getSelectedRow();
-      Usuario usuario = Usuario.findById(linha);
+      Usuario usuario = Usuario.findById(tableUsuarios.getValueAt(linha, 0));
+      if(usuario != null){
+        fillForm(usuario);
+      }
     }
   }//GEN-LAST:event_tableUsuariosMouseClicked
+
+  private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
+    preparaForm("alterar");
+  }//GEN-LAST:event_buttonEditActionPerformed
 
   public static void main(String args[]) {
     try {
@@ -349,7 +358,6 @@ public class FrameUsuario extends javax.swing.JDialog {
   private javax.swing.JButton buttonEdit;
   private javax.swing.JButton buttonExcluir;
   private javax.swing.JButton buttonNovo;
-  private javax.swing.JButton buttonPesquisar;
   private javax.swing.JButton buttonSair;
   private javax.swing.JButton buttonSalvar;
   private javax.swing.JCheckBox checkAtivo;
@@ -382,22 +390,11 @@ public class FrameUsuario extends javax.swing.JDialog {
 
   private void preparaForm(String opcao) {
     switch (opcao) {
-      case "iniciar": {
-        preparaIniciar();
-        break;
-      }
-      case "novo": {
-        preparaNovo();
-        break;
-      }
-      case "salvar": {
-        preparaSalvar();
-        break;
-      }
-      case "cancelar": {
-        preparaCancelar();
-        break;
-      }
+      case "iniciar":  { preparaIniciar(); break; }
+      case "novo":     { preparaNovo();    break; }
+      case "salvar":   { preparaSalvar();  break; }
+      case "alterar":  { preparaAlterar(); break; }
+      case "cancelar": { preparaCancelar(); break; }
     }
   }
 
@@ -406,20 +403,14 @@ public class FrameUsuario extends javax.swing.JDialog {
     PrepareForm.cleanFields(jPanel2);
     Funcoes.desabilitaButtons(buttonCancelar, buttonEdit, buttonExcluir, buttonSalvar);
     Funcoes.limpaLabel(labelCodigo);
-    Funcoes.habilitaButtons(buttonNovo, buttonPesquisar, buttonSair);
+    Funcoes.habilitaButtons(buttonNovo, buttonSair);
     jTabbedPane1.setSelectedIndex(0);
     txtPesquisa.requestFocusInWindow();
   }
 
   private void salvar(String vCodigo, String vLogin, String vSenha, String vNome, String vEmail, int vNivel, boolean vAtivo) {
-    Usuario usuario = Usuario.create(
-            "id", vCodigo,
-            "login", vLogin,
-            "senha", Criptografia.criptografar(vSenha),
-            "nome", vNome,
-            "email", vEmail,
-            "nivel", vNivel,
-            "ativo", vAtivo);
+    Usuario usuario = new Usuario();
+    usuario.set("id", vCodigo, "login", vLogin, "senha", vSenha, "nome", vNome, "email", vEmail, "nivel", vNivel, "ativo", vAtivo);
     try {
       usuario.saveIt();
       labelCodigo.setText(String.format("%03d", usuario.get("id")));
@@ -439,7 +430,7 @@ public class FrameUsuario extends javax.swing.JDialog {
 
   private void setSaveButtons() {
     Funcoes.desabilitaButtons(buttonSalvar, buttonCancelar);
-    Funcoes.habilitaButtons(buttonNovo, buttonEdit, buttonExcluir, buttonPesquisar, buttonSair);
+    Funcoes.habilitaButtons(buttonNovo, buttonEdit, buttonExcluir, buttonSair);
   }
 
   private void preparaNovo() {
@@ -454,7 +445,7 @@ public class FrameUsuario extends javax.swing.JDialog {
 
   private void setNewButtons() {
     Funcoes.habilitaButtons(buttonSalvar, buttonCancelar);
-    Funcoes.desabilitaButtons(buttonNovo, buttonEdit, buttonExcluir, buttonPesquisar, buttonSair);
+    Funcoes.desabilitaButtons(buttonNovo, buttonEdit, buttonExcluir, buttonSair);
   }
 
   private void preparaCancelar() {
@@ -468,11 +459,11 @@ public class FrameUsuario extends javax.swing.JDialog {
   }
 
   private void setCancelButtons() {
-    Funcoes.habilitaButtons(buttonNovo, buttonPesquisar, buttonSair);
+    Funcoes.habilitaButtons(buttonNovo, buttonSair);
     Funcoes.desabilitaButtons(buttonSalvar, buttonEdit, buttonCancelar, buttonExcluir);
   }
 
-  private void preencheGrid(String name, boolean onlyActive, String ordem) {
+  private void fillTable(String name, boolean onlyActive, String ordem) {
     String active = onlyActive ? " and ativo" : "";
     List<Usuario> usuarios = Usuario.find("nome like '%" + name + "%'" + active).orderBy(ordem);
     model.removeAll();
@@ -490,5 +481,25 @@ public class FrameUsuario extends javax.swing.JDialog {
     Funcoes.sizeColumn(tableUsuarios, 2, 210);
     Funcoes.sizeColumn(tableUsuarios, 3, 60);
     Funcoes.alinhaColunas(tableUsuarios, 3, SwingConstants.CENTER);
+  }
+
+  private void fillForm(Usuario usuario) {
+    jTabbedPane1.setSelectedIndex(1);
+    labelCodigo.setText(String.format("%03d", usuario.getId()));
+    txtLogin.setText(usuario.getString("login"));
+    txtNome.setText(usuario.getString("nome"));
+    txtEmail.setText(usuario.getString("email"));
+    txtSenha.setText(usuario.getString("senha"));
+    comboNivel.setSelectedIndex(usuario.getInteger("nivel"));
+    checkAtivo.setSelected(usuario.getBoolean("ativo"));
+    Funcoes.habilitaButtons(buttonEdit, buttonExcluir, buttonNovo, buttonSair);
+    Funcoes.desabilitaButtons(buttonSalvar, buttonCancelar);
+    buttonEdit.requestFocusInWindow();
+  }
+
+  private void preparaAlterar() {
+    PrepareForm.enableFields(jPanel2);
+    Funcoes.habilitaButtons(buttonSalvar, buttonCancelar);
+    Funcoes.desabilitaButtons(buttonEdit, buttonExcluir, buttonNovo, buttonSair);
   }
 }
