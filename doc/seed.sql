@@ -1,0 +1,1 @@
+insert into usuarios (login, nome, senha, email, nivel) values ('luciano', 'Luciano Bezerra', md5('123456'), 'contato@lucianobezerra.eti.br', 0);
