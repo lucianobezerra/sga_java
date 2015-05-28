@@ -1,6 +1,7 @@
 package br.com.sga.ui;
 
 import br.com.sga.model.Usuario;
+import br.com.sga.model.UsuarioLogado;
 import br.com.sga.model.UsuarioTableModel;
 import br.com.sga.util.Criptografia;
 import br.com.sga.util.Funcoes;
@@ -10,6 +11,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import org.javalite.activejdbc.validation.ValidationException;
@@ -265,6 +267,11 @@ public class FrameUsuario extends javax.swing.JDialog {
 
     buttonExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432226877_delete-file.png"))); // NOI18N
     buttonExcluir.setEnabled(false);
+    buttonExcluir.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        buttonExcluirActionPerformed(evt);
+      }
+    });
     jPanel2.add(buttonExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, 60, 25));
 
     buttonSair.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -298,6 +305,7 @@ public class FrameUsuario extends javax.swing.JDialog {
     String wSenha = String.valueOf(txtSenha.getPassword()).toLowerCase();
     String vSenha = Funcoes.isNullOrBlank(labelCodigo.getText()) ? Criptografia.criptografar(wSenha) :  wSenha;
     salvar(labelCodigo.getText(),
+            UsuarioLogado.getInstance().getId(),
             txtLogin.getText().toLowerCase(),
             vSenha,
             txtNome.getText().toUpperCase(),
@@ -330,6 +338,12 @@ public class FrameUsuario extends javax.swing.JDialog {
   private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
     preparaForm("alterar");
   }//GEN-LAST:event_buttonEditActionPerformed
+
+  private void buttonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirActionPerformed
+    if(Message.confirmation(this, "Tem certeza? \nEssa Operação não pode ser revertida!") == JOptionPane.OK_OPTION){
+      excluir(Integer.valueOf(labelCodigo.getText()));
+    }
+  }//GEN-LAST:event_buttonExcluirActionPerformed
 
   public static void main(String args[]) {
     try {
@@ -408,9 +422,9 @@ public class FrameUsuario extends javax.swing.JDialog {
     txtPesquisa.requestFocusInWindow();
   }
 
-  private void salvar(String vCodigo, String vLogin, String vSenha, String vNome, String vEmail, int vNivel, boolean vAtivo) {
+  private void salvar(String vCodigo, int vUser, String vLogin, String vSenha, String vNome, String vEmail, int vNivel, boolean vAtivo) {
     Usuario usuario = new Usuario();
-    usuario.set("id", vCodigo, "login", vLogin, "senha", vSenha, "nome", vNome, "email", vEmail, "nivel", vNivel, "ativo", vAtivo);
+    usuario.set("id", vCodigo, "user_id", vUser, "login", vLogin, "senha", vSenha, "nome", vNome, "email", vEmail, "nivel", vNivel, "ativo", vAtivo);
     try {
       usuario.saveIt();
       labelCodigo.setText(String.format("%03d", usuario.get("id")));
@@ -424,7 +438,7 @@ public class FrameUsuario extends javax.swing.JDialog {
   }
 
   private void preparaSalvar() {
-    PrepareForm.disableFields(jPanel1);
+    PrepareForm.disableFields(jPanel2);
     setSaveButtons();
   }
 
@@ -501,5 +515,23 @@ public class FrameUsuario extends javax.swing.JDialog {
     PrepareForm.enableFields(jPanel2);
     Funcoes.habilitaButtons(buttonSalvar, buttonCancelar);
     Funcoes.desabilitaButtons(buttonEdit, buttonExcluir, buttonNovo, buttonSair);
+  }
+
+  private void excluir(int id) {
+    List<Usuario> usuarios = Usuario.findAll();
+    if(isUnique(usuarios)){
+      String user = usuarios.get(0).getString("nome");
+      Message.information(this, "Desculpe, " + user +" eh o Único usuário do sistema.\nNão posso excluí-lo ...");
+    }else{
+      Usuario usuario = Usuario.findById(id);
+      if(usuario.delete()){
+        PrepareForm.cleanFields(jPanel2);
+        Message.information(this, "Usuário Excluido!");
+      }
+    }
+  }
+
+  private boolean isUnique(List<Usuario> usuarios) {
+    return usuarios.size() <= 1;
   }
 }

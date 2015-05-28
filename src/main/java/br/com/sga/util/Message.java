@@ -20,8 +20,8 @@ public class Message {
     JOptionPane.showMessageDialog(parent, message, "Erro: ", JOptionPane.ERROR_MESSAGE);
   }
 
-  public static void confirmation(Component parent, String message) {
-    JOptionPane.showMessageDialog(parent, message, "Confirmação", JOptionPane.QUESTION_MESSAGE);
+  public static int confirmation(Component parent, String message) {
+    return JOptionPane.showConfirmDialog(parent, message, "Confirmação", JOptionPane.YES_NO_OPTION);
   }
 
   public static void information(Component parent, String message) {
