@@ -1,5 +1,6 @@
 package br.com.sga.util;
 
+import br.com.sga.model.Permissao;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -10,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -19,6 +21,11 @@ import javax.swing.table.JTableHeader;
  * @author Luciano Bezerra
  */
 public class Funcoes {
+  
+  public static boolean checaPermissao(int user, String tela){
+    Permissao permissao = Permissao.findFirst("user_id = ? and window = ?", user, tela);
+    return permissao != null;
+  }
 
   public static void formatFontGrid(JTable grid, Font font){
     grid.setFont(font);
@@ -44,6 +51,11 @@ public class Funcoes {
     grid.getColumnModel().getColumn(column).setCellRenderer(renderer);
   }
   
+  public static void fontGrid(JTable grid, String font, int style, int sizeFont) {
+    formatFontHeader(grid, new Font(font, style, sizeFont));
+    formatFontGrid(grid, new Font(font, style, sizeFont));
+  }
+
   public static void desabilitaEdits(JTextField... edits) {
     for (JTextField edit : edits) {
       edit.setEnabled(false);

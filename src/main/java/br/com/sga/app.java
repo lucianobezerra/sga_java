@@ -20,7 +20,7 @@ public class app {
       @Override
       public void run() {
         Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://127.0.0.1/db_sga", "root", "mysql");
-       // insereUsuario();
+        //insereUsuario();
         Login login = new Login();
         login.setVisible(true);
       }
@@ -28,7 +28,6 @@ public class app {
       private void insereUsuario() {
         Usuario usuario = new Usuario();
         usuario.set("user_id", 1, "login", "luciano", "senha", Criptografia.criptografar("123456"), "nome", "Luciano Bezerra", "email", "contato@lucianobezerra.eti.br");
-        System.out.println(usuario);
         try {
           usuario.saveIt();
           System.out.println(usuario.errors());

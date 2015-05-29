@@ -1,6 +1,8 @@
 package br.com.sga.ui;
 
 import br.com.sga.model.UsuarioLogado;
+import br.com.sga.util.Funcoes;
+import br.com.sga.util.Message;
 import java.awt.EventQueue;
 
 /**
@@ -54,9 +56,13 @@ public class Menu extends javax.swing.JFrame {
   }// </editor-fold>//GEN-END:initComponents
 
   private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-    FrameUsuario frameUsuario = new FrameUsuario();
-    frameUsuario.setAlwaysOnTop(true);
-    frameUsuario.setVisible(true);
+    if(Funcoes.checaPermissao(UsuarioLogado.getInstance().getId(), "frameUsuario")){
+      FrameUsuario frameUsuario = new FrameUsuario();
+      frameUsuario.setAlwaysOnTop(true);
+      frameUsuario.setVisible(true);      
+    }else{
+      Message.information(this, "Desculpe, você não tem Permissão para acessar\nessa funcionalidade!");
+    }
   }//GEN-LAST:event_jMenuItem1ActionPerformed
 
   public static void main(String args[]) {
@@ -88,4 +94,5 @@ public class Menu extends javax.swing.JFrame {
   private javax.swing.JMenuItem jMenuItem1;
   private javax.swing.JLabel labelUsuario;
   // End of variables declaration//GEN-END:variables
+
 }
