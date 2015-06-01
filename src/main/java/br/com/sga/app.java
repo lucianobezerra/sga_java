@@ -1,5 +1,6 @@
 package br.com.sga;
 
+import br.com.sga.model.Permissao;
 import br.com.sga.model.Usuario;
 import br.com.sga.ui.Login;
 import br.com.sga.util.Criptografia;
@@ -35,6 +36,14 @@ public class app {
           Message.validation(null, usuario.errors());
         }
         System.out.println("Usuário: " + usuario.getId() + " Criado ...");
+        //inserePermissao(usuario, "frameUsuario");
+        //inserePermissao(usuario, "framePermissao");
+      }
+
+      private void inserePermissao(Usuario usuario, String frame) {
+        Permissao permissao = new Permissao();
+        permissao.set("user_id", usuario.getId(), "user_access_id", usuario.getId(), "window", frame);
+        permissao.saveIt();
       }
     });
   }

@@ -2,8 +2,8 @@ package br.com.sga.ui;
 
 import br.com.sga.model.Permissao;
 import br.com.sga.model.PermissaoTableModel;
-import br.com.sga.model.UsuarioLogado;
-import br.com.sga.util.Criptografia;
+import br.com.sga.model.Usuario;
+import br.com.sga.util.ComboUsuario;
 import br.com.sga.util.Funcoes;
 import br.com.sga.util.Message;
 import java.awt.Font;
@@ -18,12 +18,14 @@ import javax.swing.SwingConstants;
  * @author Luciano Bezerra
  */
 public class FramePermissao extends javax.swing.JDialog {
+
   PermissaoTableModel model = new PermissaoTableModel();
+
   public FramePermissao(java.awt.Frame parent, boolean modal) {
     super(parent, modal);
     initComponents();
-    formataGrid(tablePermissoes);
     tablePermissoes.setModel(model);
+    formataGrid(tablePermissoes);
   }
 
   @SuppressWarnings("unchecked")
@@ -45,29 +47,22 @@ public class FramePermissao extends javax.swing.JDialog {
     jLabel1 = new javax.swing.JLabel();
     labelCodigo = new javax.swing.JLabel();
     jLabel2 = new javax.swing.JLabel();
-    txtLogin = new javax.swing.JTextField();
-    jLabel3 = new javax.swing.JLabel();
-    txtNome = new javax.swing.JTextField();
-    jLabel4 = new javax.swing.JLabel();
     jLabel5 = new javax.swing.JLabel();
-    txtSenha = new javax.swing.JPasswordField();
-    jLabel6 = new javax.swing.JLabel();
-    comboNivel = new javax.swing.JComboBox();
-    jLabel8 = new javax.swing.JLabel();
-    checkAtivo = new javax.swing.JCheckBox();
     buttonNovo = new javax.swing.JButton();
     buttonEdit = new javax.swing.JButton();
     buttonSalvar = new javax.swing.JButton();
     buttonCancelar = new javax.swing.JButton();
     buttonExcluir = new javax.swing.JButton();
     buttonSair = new javax.swing.JButton();
-    txtEmail = new javax.swing.JTextField();
+    comboUsuario = new javax.swing.JComboBox();
+    comboJanela = new javax.swing.JComboBox();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     setTitle("Cadastro de Permissões");
     setMaximumSize(new java.awt.Dimension(505, 327));
     setMinimumSize(new java.awt.Dimension(505, 327));
     setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+    setName("framePermissao"); // NOI18N
     setResizable(false);
     getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -82,19 +77,12 @@ public class FramePermissao extends javax.swing.JDialog {
         {null, null, null}
       },
       new String [] {
-        "Cód", "Usuário", "Tela"
+        "Title 1", "Title 2", "Title 3"
       }
     ) {
-      Class[] types = new Class [] {
-        java.lang.String.class, java.lang.String.class, java.lang.String.class
-      };
       boolean[] canEdit = new boolean [] {
         false, false, false
       };
-
-      public Class getColumnClass(int columnIndex) {
-        return types [columnIndex];
-      }
 
       public boolean isCellEditable(int rowIndex, int columnIndex) {
         return canEdit [columnIndex];
@@ -108,10 +96,14 @@ public class FramePermissao extends javax.swing.JDialog {
       }
     });
     jScrollPane1.setViewportView(tablePermissoes);
-    tablePermissoes.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+    tablePermissoes.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     if (tablePermissoes.getColumnModel().getColumnCount() > 0) {
+      tablePermissoes.getColumnModel().getColumn(0).setResizable(false);
+      tablePermissoes.getColumnModel().getColumn(0).setPreferredWidth(60);
       tablePermissoes.getColumnModel().getColumn(1).setResizable(false);
+      tablePermissoes.getColumnModel().getColumn(1).setPreferredWidth(250);
       tablePermissoes.getColumnModel().getColumn(2).setResizable(false);
+      tablePermissoes.getColumnModel().getColumn(2).setPreferredWidth(250);
     }
 
     jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 200));
@@ -162,61 +154,20 @@ public class FramePermissao extends javax.swing.JDialog {
     jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
     jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
     jLabel1.setText("Código:");
-    jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 100, 20));
+    jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 100, 30));
 
     labelCodigo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jPanel2.add(labelCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 60, 20));
+    jPanel2.add(labelCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 60, 30));
 
     jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
     jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-    jLabel2.setText("Login:");
-    jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 100, 20));
-
-    txtLogin.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    txtLogin.setEnabled(false);
-    jPanel2.add(txtLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 150, 20));
-
-    jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-    jLabel3.setText("Nome Completo:");
-    jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 100, 20));
-
-    txtNome.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    txtNome.setEnabled(false);
-    jPanel2.add(txtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 270, 20));
-
-    jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-    jLabel4.setText("Email:");
-    jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 100, 20));
+    jLabel2.setText("Usuário:");
+    jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 100, 30));
 
     jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
     jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-    jLabel5.setText("Senha:");
-    jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 100, 20));
-
-    txtSenha.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    txtSenha.setEnabled(false);
-    jPanel2.add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 150, 20));
-
-    jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-    jLabel6.setText("Nível:");
-    jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 100, 20));
-
-    comboNivel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    comboNivel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecione", "Administrador", "Gerente", "Operador" }));
-    comboNivel.setEnabled(false);
-    jPanel2.add(comboNivel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 180, 150, 20));
-
-    jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-    jLabel8.setText("Ativo:");
-    jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 100, 20));
-
-    checkAtivo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    checkAtivo.setEnabled(false);
-    jPanel2.add(checkAtivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, 20));
+    jLabel5.setText("Janela:");
+    jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 100, 30));
 
     buttonNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432226514_Add.png"))); // NOI18N
     buttonNovo.setEnabled(false);
@@ -272,7 +223,19 @@ public class FramePermissao extends javax.swing.JDialog {
       }
     });
     jPanel2.add(buttonSair, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, 80, 25));
-    jPanel2.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 270, 20));
+
+    comboUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+    comboUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+    comboUsuario.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        comboUsuarioItemStateChanged(evt);
+      }
+    });
+    jPanel2.add(comboUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 180, 30));
+
+    comboJanela.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+    comboJanela.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+    jPanel2.add(comboJanela, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 180, 30));
 
     jTabbedPane1.addTab("Cadastro", jPanel2);
 
@@ -286,7 +249,7 @@ public class FramePermissao extends javax.swing.JDialog {
     if (evt.getClickCount() == 2) {
       int linha = tablePermissoes.getSelectedRow();
       Permissao permissao = Permissao.findById(tablePermissoes.getValueAt(linha, 0));
-      if(permissao != null){
+      if (permissao != null) {
         fillForm(permissao);
       }
     }
@@ -294,7 +257,7 @@ public class FramePermissao extends javax.swing.JDialog {
 
   private void txtPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyPressed
     if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-      fillTable(txtPesquisa.getText().toUpperCase(), bgOrdem.getSelection().getActionCommand());
+      fillTable(txtPesquisa.getText(), bgOrdem.getSelection().getActionCommand());
     }
   }//GEN-LAST:event_txtPesquisaKeyPressed
 
@@ -307,18 +270,18 @@ public class FramePermissao extends javax.swing.JDialog {
   }//GEN-LAST:event_buttonEditActionPerformed
 
   private void buttonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvarActionPerformed
-    String wSenha = String.valueOf(txtSenha.getPassword()).toLowerCase();
-    String vSenha = Funcoes.isNullOrBlank(labelCodigo.getText()) ? Criptografia.criptografar(wSenha) :  wSenha;
-   /* salvar(labelCodigo.getText(),
-      UsuarioLogado.getInstance().getId(),
-      txtLogin.getText().toLowerCase(),
-      vSenha,
-      txtNome.getText().toUpperCase(),
-      txtEmail.getText().toLowerCase(),
-      comboNivel.getSelectedIndex(),
-      checkAtivo.isSelected()
-    );
-           */
+    //    String wSenha = String.valueOf(txtSenha.getPassword()).toLowerCase();
+    // String vSenha = Funcoes.isNullOrBlank(labelCodigo.getText()) ? Criptografia.criptografar(wSenha) : wSenha;
+    /* salvar(labelCodigo.getText(),
+     UsuarioLogado.getInstance().getId(),
+     txtLogin.getText().toLowerCase(),
+     vSenha,
+     txtNome.getText().toUpperCase(),
+     txtEmail.getText().toLowerCase(),
+     comboNivel.getSelectedIndex(),
+     checkAtivo.isSelected()
+     );
+     */
   }//GEN-LAST:event_buttonSalvarActionPerformed
 
   private void buttonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarActionPerformed
@@ -326,7 +289,7 @@ public class FramePermissao extends javax.swing.JDialog {
   }//GEN-LAST:event_buttonCancelarActionPerformed
 
   private void buttonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirActionPerformed
-    if(Message.confirmation(this, "Tem certeza? \nEssa Operação não pode ser revertida!") == JOptionPane.OK_OPTION){
+    if (Message.confirmation(this, "Tem certeza? \nEssa Operação não pode ser revertida!") == JOptionPane.OK_OPTION) {
       //excluir(Integer.valueOf(labelCodigo.getText()));
     }
   }//GEN-LAST:event_buttonExcluirActionPerformed
@@ -334,6 +297,10 @@ public class FramePermissao extends javax.swing.JDialog {
   private void buttonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSairActionPerformed
     this.dispose();
   }//GEN-LAST:event_buttonSairActionPerformed
+
+  private void comboUsuarioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboUsuarioItemStateChanged
+    System.out.println(comboUsuario);
+  }//GEN-LAST:event_comboUsuarioItemStateChanged
 
   public static void main(String args[]) {
     try {
@@ -369,15 +336,11 @@ public class FramePermissao extends javax.swing.JDialog {
   private javax.swing.JButton buttonNovo;
   private javax.swing.JButton buttonSair;
   private javax.swing.JButton buttonSalvar;
-  private javax.swing.JCheckBox checkAtivo;
-  private javax.swing.JComboBox comboNivel;
+  private javax.swing.JComboBox comboJanela;
+  private javax.swing.JComboBox comboUsuario;
   private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel2;
-  private javax.swing.JLabel jLabel3;
-  private javax.swing.JLabel jLabel4;
   private javax.swing.JLabel jLabel5;
-  private javax.swing.JLabel jLabel6;
-  private javax.swing.JLabel jLabel8;
   private javax.swing.JPanel jPanel1;
   private javax.swing.JPanel jPanel2;
   private javax.swing.JPanel jPanel3;
@@ -389,24 +352,23 @@ public class FramePermissao extends javax.swing.JDialog {
   private javax.swing.JTabbedPane jTabbedPane1;
   private javax.swing.JLabel labelCodigo;
   private javax.swing.JTable tablePermissoes;
-  private javax.swing.JTextField txtEmail;
-  private javax.swing.JTextField txtLogin;
-  private javax.swing.JTextField txtNome;
   private javax.swing.JTextField txtPesquisa;
-  private javax.swing.JPasswordField txtSenha;
   // End of variables declaration//GEN-END:variables
 
   private void formataGrid(JTable grid) {
     Funcoes.fontGrid(grid, "Arial", Font.PLAIN, 12);
     Funcoes.alinhaColunas(grid, 0, SwingConstants.CENTER);
-    Funcoes.alinhaColunas(grid, 3, SwingConstants.CENTER);
+    Funcoes.sizeColumn(grid, 0, 40);
+    Funcoes.sizeColumn(grid, 1, 215);
+    Funcoes.sizeColumn(grid, 2, 215);
+    grid.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
   }
 
   private void fillForm(Permissao permissao) {
+    List<Usuario> usuarios = Usuario.findAll();
     jTabbedPane1.setSelectedIndex(1);
     labelCodigo.setText(String.format("%03d", permissao.getId()));
-    txtLogin.setText(permissao.getString("user_id"));
-    txtNome.setText(permissao.getString("window"));
+    setaComboUsuario(usuarios);
     Funcoes.habilitaButtons(buttonEdit, buttonExcluir, buttonNovo, buttonSair);
     Funcoes.desabilitaButtons(buttonSalvar, buttonCancelar);
     buttonEdit.requestFocusInWindow();
@@ -414,10 +376,32 @@ public class FramePermissao extends javax.swing.JDialog {
   }
 
   private void fillTable(String user, String order) {
-    List<Permissao> permissoes = Permissao.find("user_id = ?", Integer.valueOf(user)).orderBy(order);
+    String ordem = getOrder(order);
+    List<Permissao> permissoes;
+    if (user != null) {
+      permissoes = Permissao.findAll().orderBy(ordem);
+    } else {
+      permissoes = Permissao.find("user_id = ?", Integer.valueOf(user)).orderBy(ordem);
+    }
     model.removeAll();
     for (Permissao permissao : permissoes) {
       model.addRow(permissao);
+    }
+  }
+
+  private String getOrder(String order) {
+    switch(order){
+      case "id":     return "id";
+      case "user":   return "user_id";
+      case "window": return "window";
+    }
+    return null;
+  }
+
+  private void setaComboUsuario(List<Usuario> usuarios) {
+    comboUsuario.removeAllItems();
+    for (Usuario usuario : usuarios) {
+      comboUsuario.addItem(new ComboUsuario(usuario.getString("id"), usuario.getString("nome")));
     }
   }
 

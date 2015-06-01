@@ -18,4 +18,11 @@ public class Usuario extends Model {
     validateWith(new UniquenessValidator("login"));
   }
 
+  @Override
+  public String toString() {
+    return getString("nome");
+  }
+  
+  
+
 }

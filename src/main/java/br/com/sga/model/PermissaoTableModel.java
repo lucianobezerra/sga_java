@@ -41,7 +41,7 @@ public class PermissaoTableModel extends AbstractTableModel {
   public Object getValueAt(int row, int column) {
     switch (column) {
       case 0: return String.format("%03d", permissoes.get(row).getInteger("id"));
-      case 1: return permissoes.get(row).getString("user_id");
+      case 1: return permissoes.get(row).parent(Usuario.class).get("id") + " - "+ permissoes.get(row).parent(Usuario.class).get("nome");
       case 2: return permissoes.get(row).getString("window");
     }
     return null;

@@ -24,6 +24,7 @@ public class Menu extends javax.swing.JFrame {
     jMenuBar1 = new javax.swing.JMenuBar();
     jMenu1 = new javax.swing.JMenu();
     jMenuItem1 = new javax.swing.JMenuItem();
+    jMenuItem2 = new javax.swing.JMenuItem();
     jMenu2 = new javax.swing.JMenu();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -43,6 +44,14 @@ public class Menu extends javax.swing.JFrame {
       }
     });
     jMenu1.add(jMenuItem1);
+
+    jMenuItem2.setText("Permissões");
+    jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem2ActionPerformed(evt);
+      }
+    });
+    jMenu1.add(jMenuItem2);
 
     jMenuBar1.add(jMenu1);
 
@@ -64,6 +73,16 @@ public class Menu extends javax.swing.JFrame {
       Message.information(this, "Desculpe, você não tem Permissão para acessar\nessa funcionalidade!");
     }
   }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+  private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    if(Funcoes.checaPermissao(UsuarioLogado.getInstance().getId(), "framePermissao")){
+      FramePermissao p = new FramePermissao(this, true);
+      p.setAlwaysOnTop(true);
+      p.setVisible(true);
+    }else{
+      Message.information(this, "Desculpe, você não tem Permissão para acessar\nessa funcionalidade!");
+    }
+  }//GEN-LAST:event_jMenuItem2ActionPerformed
 
   public static void main(String args[]) {
     try {
@@ -92,6 +111,7 @@ public class Menu extends javax.swing.JFrame {
   private javax.swing.JMenu jMenu2;
   private javax.swing.JMenuBar jMenuBar1;
   private javax.swing.JMenuItem jMenuItem1;
+  private javax.swing.JMenuItem jMenuItem2;
   private javax.swing.JLabel labelUsuario;
   // End of variables declaration//GEN-END:variables
 

@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -42,7 +41,8 @@ public class Funcoes {
   }
   
   public static void sizeColumn(JTable grid, int column, int size){
-    grid.getColumnModel().getColumn(column).setMaxWidth(size);
+    grid.getColumnModel().getColumn(column).setPreferredWidth(size);
+    grid.getColumnModel().getColumn(column).setResizable(true);
   }
 
   public static void alinhaColunas(JTable grid, int column, int align) {

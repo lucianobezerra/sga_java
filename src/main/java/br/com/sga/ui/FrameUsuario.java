@@ -27,7 +27,6 @@ public class FrameUsuario extends javax.swing.JDialog {
 
   public FrameUsuario() {
     initComponents();
-    System.out.println(buttonNovo.getName());
     tableUsuarios.setModel(model);
     formataGrid(tableUsuarios);    
     jTabbedPane1.setSelectedIndex(0);
