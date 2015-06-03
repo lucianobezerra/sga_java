@@ -9,16 +9,19 @@ import org.javalite.activejdbc.annotations.Table;
  *
  * @author Luciano Bezerra
  */
-@Table(value = "permissoes")
+@Table(value = "permissions")
 @BelongsToParents({ 
   @BelongsTo(foreignKeyName = "user_id", parent = Usuario.class), 
-  @BelongsTo(foreignKeyName = "user_access_id", parent = Usuario.class) 
+  @BelongsTo(foreignKeyName = "user_access_id", parent = Usuario.class),
+  @BelongsTo(foreignKeyName = "window_id", parent = Window.class) 
 })
 
-public class Permissao extends Model {
+public class Permission extends Model {
 
   static {
     validatePresenceOf("user_id").message("Usuário Não Informado");
-    validatePresenceOf("window").message("Tela Não Informada");
+    validatePresenceOf("window_id").message("Tela Não Informada");
   }
+
+  
 }

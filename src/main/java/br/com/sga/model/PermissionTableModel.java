@@ -8,16 +8,16 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Luciano Bezerra
  */
-public class PermissaoTableModel extends AbstractTableModel {
+public class PermissionTableModel extends AbstractTableModel {
 
-  private final List<Permissao> permissoes;
+  private final List<Permission> permissoes;
   private final String[] colunas = {"Cód", "Usuário", "Tela"};
 
-  public PermissaoTableModel() {
+  public PermissionTableModel() {
     this.permissoes = new ArrayList<>();
   }
 
-  public void addRow(Permissao p) {
+  public void addRow(Permission p) {
     this.permissoes.add(p);
     this.fireTableDataChanged();
   }
@@ -42,7 +42,7 @@ public class PermissaoTableModel extends AbstractTableModel {
     switch (column) {
       case 0: return String.format("%03d", permissoes.get(row).getInteger("id"));
       case 1: return permissoes.get(row).parent(Usuario.class).get("id") + " - "+ permissoes.get(row).parent(Usuario.class).get("nome");
-      case 2: return permissoes.get(row).getString("window");
+      case 2: return permissoes.get(row).parent(Window.class).get("description");
     }
     return null;
   }
@@ -57,7 +57,7 @@ public class PermissaoTableModel extends AbstractTableModel {
     this.fireTableDataChanged();
   }
 
-  public Permissao get(int linha) {
+  public Permission get(int linha) {
     return this.permissoes.get(linha);
   }
 

@@ -1,9 +1,10 @@
 package br.com.sga.ui;
 
-import br.com.sga.model.Permissao;
-import br.com.sga.model.PermissaoTableModel;
+import br.com.sga.model.Permission;
+import br.com.sga.model.PermissionTableModel;
 import br.com.sga.model.Usuario;
-import br.com.sga.util.ComboUsuario;
+import br.com.sga.model.Window;
+import br.com.sga.util.ComboItem;
 import br.com.sga.util.Funcoes;
 import br.com.sga.util.Message;
 import java.awt.Font;
@@ -19,7 +20,7 @@ import javax.swing.SwingConstants;
  */
 public class FramePermissao extends javax.swing.JDialog {
 
-  PermissaoTableModel model = new PermissaoTableModel();
+  PermissionTableModel model = new PermissionTableModel();
 
   public FramePermissao(java.awt.Frame parent, boolean modal) {
     super(parent, modal);
@@ -226,11 +227,6 @@ public class FramePermissao extends javax.swing.JDialog {
 
     comboUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
     comboUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-    comboUsuario.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        comboUsuarioItemStateChanged(evt);
-      }
-    });
     jPanel2.add(comboUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 180, 30));
 
     comboJanela.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -248,7 +244,7 @@ public class FramePermissao extends javax.swing.JDialog {
   private void tablePermissoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePermissoesMouseClicked
     if (evt.getClickCount() == 2) {
       int linha = tablePermissoes.getSelectedRow();
-      Permissao permissao = Permissao.findById(tablePermissoes.getValueAt(linha, 0));
+      Permission permissao = Permission.findById(tablePermissoes.getValueAt(linha, 0));
       if (permissao != null) {
         fillForm(permissao);
       }
@@ -297,10 +293,6 @@ public class FramePermissao extends javax.swing.JDialog {
   private void buttonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSairActionPerformed
     this.dispose();
   }//GEN-LAST:event_buttonSairActionPerformed
-
-  private void comboUsuarioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboUsuarioItemStateChanged
-    System.out.println(comboUsuario);
-  }//GEN-LAST:event_comboUsuarioItemStateChanged
 
   public static void main(String args[]) {
     try {
@@ -364,11 +356,13 @@ public class FramePermissao extends javax.swing.JDialog {
     grid.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
   }
 
-  private void fillForm(Permissao permissao) {
-    List<Usuario> usuarios = Usuario.findAll();
+  private void fillForm(Permission permissao) {
+    Usuario usuario = permissao.parent(Usuario.class);
+    List<Window> janelas = Window.findAll();
     jTabbedPane1.setSelectedIndex(1);
     labelCodigo.setText(String.format("%03d", permissao.getId()));
-    setaComboUsuario(usuarios);
+    setaComboUsuario(usuario);
+    setaComboJanela(permissao, janelas);
     Funcoes.habilitaButtons(buttonEdit, buttonExcluir, buttonNovo, buttonSair);
     Funcoes.desabilitaButtons(buttonSalvar, buttonCancelar);
     buttonEdit.requestFocusInWindow();
@@ -377,32 +371,48 @@ public class FramePermissao extends javax.swing.JDialog {
 
   private void fillTable(String user, String order) {
     String ordem = getOrder(order);
-    List<Permissao> permissoes;
+    List<Permission> permissoes;
     if (user != null) {
-      permissoes = Permissao.findAll().orderBy(ordem);
+      permissoes = Permission.findAll().orderBy(ordem);
     } else {
-      permissoes = Permissao.find("user_id = ?", Integer.valueOf(user)).orderBy(ordem);
+      permissoes = Permission.find("user_id = ?", Integer.valueOf(user)).orderBy(ordem);
     }
     model.removeAll();
-    for (Permissao permissao : permissoes) {
+    for (Permission permissao : permissoes) {
       model.addRow(permissao);
     }
   }
 
   private String getOrder(String order) {
-    switch(order){
+    switch (order) {
       case "id":     return "id";
       case "user":   return "user_id";
-      case "window": return "window";
+      case "window": return "window_id";
     }
     return null;
   }
 
-  private void setaComboUsuario(List<Usuario> usuarios) {
+  private void setaComboUsuario(Usuario usuario) {
     comboUsuario.removeAllItems();
-    for (Usuario usuario : usuarios) {
-      comboUsuario.addItem(new ComboUsuario(usuario.getString("id"), usuario.getString("nome")));
+    comboUsuario.addItem(new ComboItem(usuario.getString("id"), usuario.getString("nome")));
+  }
+
+  private void setaComboJanela(Permission permissao, List<Window> windows) {
+    ComboItem optionSelected = new ComboItem(permissao.parent(Window.class).getString("id"), permissao.parent(Window.class).getString("description"));
+    int selected;
+    comboJanela.removeAllItems();
+    for (Window window : windows) {
+      comboJanela.addItem(new ComboItem(window.getString("id"), window.getString("description")));
+      if(permissao.getInteger())
     }
+    
+    setSelectedIndex(permissao);
+  }
+
+  private void setSelectedIndex(Permission permissao) {
+    int index = 0;
+    int selectedIndex = 0;
+    
   }
 
 }

@@ -7,7 +7,7 @@ import org.javalite.activejdbc.annotations.Table;
  *
  * @author Luciano Bezerra
  */
-@Table(value="usuarios")
+@Table(value="users")
 public class Usuario extends Model {
   static{
     validatePresenceOf("login").message("Login não Informado!");

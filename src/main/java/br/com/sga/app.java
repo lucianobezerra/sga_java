@@ -1,7 +1,7 @@
 package br.com.sga;
 
-import br.com.sga.model.Permissao;
 import br.com.sga.model.Usuario;
+import br.com.sga.model.Window;
 import br.com.sga.ui.Login;
 import br.com.sga.util.Criptografia;
 import br.com.sga.util.Message;
@@ -30,20 +30,15 @@ public class app {
         Usuario usuario = new Usuario();
         usuario.set("user_id", 1, "login", "luciano", "senha", Criptografia.criptografar("123456"), "nome", "Luciano Bezerra", "email", "contato@lucianobezerra.eti.br");
         try {
-          usuario.saveIt();
+          if(usuario.saveIt()){
+            Window.createIt("description", "frameUsuario", "user_id", 1);
+            Window.createIt("description", "framePermissao", "user_id", 1);
+          };
           System.out.println(usuario.errors());
         } catch (ValidationException ve) {
           Message.validation(null, usuario.errors());
         }
         System.out.println("Usuário: " + usuario.getId() + " Criado ...");
-        //inserePermissao(usuario, "frameUsuario");
-        //inserePermissao(usuario, "framePermissao");
-      }
-
-      private void inserePermissao(Usuario usuario, String frame) {
-        Permissao permissao = new Permissao();
-        permissao.set("user_id", usuario.getId(), "user_access_id", usuario.getId(), "window", frame);
-        permissao.saveIt();
       }
     });
   }

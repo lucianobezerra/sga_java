@@ -65,7 +65,7 @@ public class Menu extends javax.swing.JFrame {
   }// </editor-fold>//GEN-END:initComponents
 
   private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-    if(Funcoes.checaPermissao(UsuarioLogado.getInstance().getId(), "frameUsuario")){
+    if(Funcoes.checaPermissao("frameUsuario")){
       FrameUsuario frameUsuario = new FrameUsuario();
       frameUsuario.setAlwaysOnTop(true);
       frameUsuario.setVisible(true);      
@@ -75,7 +75,7 @@ public class Menu extends javax.swing.JFrame {
   }//GEN-LAST:event_jMenuItem1ActionPerformed
 
   private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-    if(Funcoes.checaPermissao(UsuarioLogado.getInstance().getId(), "framePermissao")){
+    if(Funcoes.checaPermissao("framePermissao")){
       FramePermissao p = new FramePermissao(this, true);
       p.setAlwaysOnTop(true);
       p.setVisible(true);

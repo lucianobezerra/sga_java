@@ -4,12 +4,12 @@ package br.com.sga.util;
  *
  * @author Luciano Bezerra
  */
-public class ComboUsuario {
+public class ComboItem {
 
   private String key;
   private String value;
 
-  public ComboUsuario(String key, String value) {
+  public ComboItem(String key, String value) {
     this.key = key;
     this.value = value;
   }

@@ -1,6 +1,8 @@
 package br.com.sga.util;
 
-import br.com.sga.model.Permissao;
+import br.com.sga.model.Permission;
+import br.com.sga.model.UsuarioLogado;
+import br.com.sga.model.Window;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -21,8 +23,10 @@ import javax.swing.table.JTableHeader;
  */
 public class Funcoes {
   
-  public static boolean checaPermissao(int user, String tela){
-    Permissao permissao = Permissao.findFirst("user_id = ? and window = ?", user, tela);
+  public static boolean checaPermissao(String tela){
+    Window window = Window.findFirst("description = ?", tela);
+    
+    Permission permissao = Permission.findFirst("user_id = ? and window_id = ?", UsuarioLogado.getInstance().getId(), window.getId());
     return permissao != null;
   }
 

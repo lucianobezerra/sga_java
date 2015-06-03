@@ -1,5 +1,5 @@
-drop table usuarios;
-create table usuarios(
+drop table users;
+create table users(
   id int(11) not null  AUTO_INCREMENT,
   login varchar(255) not null,
   senha varchar(255) not null,
@@ -12,4 +12,4 @@ create table usuarios(
   PRIMARY KEY (id)
 );
 
-alter table usuarios add unique (login);
+alter table users add unique (login);
