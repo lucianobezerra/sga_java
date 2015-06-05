@@ -1,5 +1,6 @@
 package br.com.sga.model;
 
+import br.com.sga.util.SingleUniquenessValidator;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
 
@@ -15,7 +16,7 @@ public class Usuario extends Model {
     validatePresenceOf("nome").message("Nome não preenchido!");
     validatePresenceOf("email").message("Email não preenchido!");
     validateEmailOf("email").message("Formato do Email Inválido!");
-    validateWith(new UniquenessValidator("login"));
+    validateWith(new SingleUniquenessValidator("login"));
   }
 
   @Override

@@ -1,4 +1,4 @@
-package br.com.sga.model;
+package br.com.sga.util;
 
 import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.Model;
@@ -9,11 +9,11 @@ import org.javalite.activejdbc.validation.ValidatorAdapter;
  *
  * @author Luciano Bezerra
  */
-public class UniquenessValidator extends ValidatorAdapter {
+public class SingleUniquenessValidator extends ValidatorAdapter {
 
   private final String attribute;
 
-  public UniquenessValidator(String attribute) {
+  public SingleUniquenessValidator(String attribute) {
     this.attribute = attribute;
     setMessage("Já Cadastrado");
   }

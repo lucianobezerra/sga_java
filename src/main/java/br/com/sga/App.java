@@ -13,7 +13,7 @@ import org.javalite.activejdbc.validation.ValidationException;
  *
  * @author Luciano Bezerra
  */
-public class app {
+public class App {
 
   public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
@@ -33,7 +33,8 @@ public class app {
           if(usuario.saveIt()){
             Window.createIt("description", "frameUsuario", "user_id", 1);
             Window.createIt("description", "framePermissao", "user_id", 1);
-          };
+
+          }
           System.out.println(usuario.errors());
         } catch (ValidationException ve) {
           Message.validation(null, usuario.errors());

@@ -1,5 +1,6 @@
 package br.com.sga.model;
 
+import br.com.sga.util.MultipleUniquenessValidator;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.BelongsTo;
 import org.javalite.activejdbc.annotations.BelongsToParents;
@@ -21,7 +22,8 @@ public class Permission extends Model {
   static {
     validatePresenceOf("user_id").message("Usuário Não Informado");
     validatePresenceOf("window_id").message("Tela Não Informada");
+    validateWith(new MultipleUniquenessValidator("user_id", "window_id"));
   }
 
-  
+ 
 }

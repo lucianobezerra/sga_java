@@ -13,16 +13,6 @@ import javax.swing.JTabbedPane;
  */
 public class Form {
   
-  public static void preparaForm(String opcao, JDialog form, JPanel panel, JTabbedPane tab){
-    switch(opcao){
-      case "iniciar":  { preparaIniciar(panel, tab, form); break; }
-      case "novo":     { preparaNovo();    break; }
-      case "salvar":   { preparaSalvar();  break; }
-      case "alterar":  { preparaAlterar(); break; }
-      case "cancelar": { preparaCancelar(); break; }
-    }
-  }
-  
   public static void preparaIniciar(JPanel panel, JTabbedPane tab, JDialog form){
     PrepareForm.disableFields(panel);
     PrepareForm.cleanFields(panel);
@@ -30,7 +20,6 @@ public class Form {
       Component component = panel.getComponent(i);
       if(component instanceof JButton){
         JButton button = (JButton) component;
-        System.out.println(button.getName());
         if("buttonCancelar".equals(component.getName()) 
                 || "buttonEdit".equals(component.getName()) 
                 || "buttonExcluir".equals(component.getName()) 
@@ -47,18 +36,6 @@ public class Form {
       }
     }
     tab.setSelectedIndex(0);    
-  }
-  public static void preparaNovo(){
-    
-  }
-  public static void preparaSalvar(){
-    
-  }
-  public static void preparaAlterar(){
-    
-  }
-  public static void preparaCancelar(){
-    
   }
   
 }

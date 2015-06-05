@@ -89,7 +89,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>br.com.grupotubform.op.OrdemDePagamento</mainClass>
+              <mainClass>br.com.sga.App</mainClass>
             </manifest>
           </archive>
         </configuration>

@@ -3,16 +3,19 @@ package br.com.sga.ui;
 import br.com.sga.model.Permission;
 import br.com.sga.model.PermissionTableModel;
 import br.com.sga.model.Usuario;
+import br.com.sga.model.UsuarioLogado;
 import br.com.sga.model.Window;
-import br.com.sga.util.ComboItem;
+import br.com.sga.util.Form;
 import br.com.sga.util.Funcoes;
 import br.com.sga.util.Message;
+import br.com.sga.util.PrepareForm;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import org.javalite.activejdbc.validation.ValidationException;
 
 /**
  *
@@ -27,6 +30,7 @@ public class FramePermissao extends javax.swing.JDialog {
     initComponents();
     tablePermissoes.setModel(model);
     formataGrid(tablePermissoes);
+    Form.preparaIniciar(jPanel2, jTabbedPane1, this);
   }
 
   @SuppressWarnings("unchecked")
@@ -55,8 +59,8 @@ public class FramePermissao extends javax.swing.JDialog {
     buttonCancelar = new javax.swing.JButton();
     buttonExcluir = new javax.swing.JButton();
     buttonSair = new javax.swing.JButton();
-    comboUsuario = new javax.swing.JComboBox();
-    comboJanela = new javax.swing.JComboBox();
+    comboUser = new javax.swing.JComboBox();
+    comboWindow = new javax.swing.JComboBox();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     setTitle("Cadastro de Permissões");
@@ -171,7 +175,7 @@ public class FramePermissao extends javax.swing.JDialog {
     jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 100, 30));
 
     buttonNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432226514_Add.png"))); // NOI18N
-    buttonNovo.setEnabled(false);
+    buttonNovo.setName("buttonNovo"); // NOI18N
     buttonNovo.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         buttonNovoActionPerformed(evt);
@@ -180,7 +184,7 @@ public class FramePermissao extends javax.swing.JDialog {
     jPanel2.add(buttonNovo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 60, 25));
 
     buttonEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432226749_icon-136-document-edit.png"))); // NOI18N
-    buttonEdit.setEnabled(false);
+    buttonEdit.setName("buttonEdit"); // NOI18N
     buttonEdit.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         buttonEditActionPerformed(evt);
@@ -189,7 +193,7 @@ public class FramePermissao extends javax.swing.JDialog {
     jPanel2.add(buttonEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, 60, 25));
 
     buttonSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432224509_Save.png"))); // NOI18N
-    buttonSalvar.setEnabled(false);
+    buttonSalvar.setName("buttonSalvar"); // NOI18N
     buttonSalvar.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         buttonSalvarActionPerformed(evt);
@@ -198,7 +202,7 @@ public class FramePermissao extends javax.swing.JDialog {
     jPanel2.add(buttonSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, 60, 25));
 
     buttonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432226831_cross.png"))); // NOI18N
-    buttonCancelar.setEnabled(false);
+    buttonCancelar.setName("buttonCancelar"); // NOI18N
     buttonCancelar.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         buttonCancelarActionPerformed(evt);
@@ -207,7 +211,7 @@ public class FramePermissao extends javax.swing.JDialog {
     jPanel2.add(buttonCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 60, 25));
 
     buttonExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432226877_delete-file.png"))); // NOI18N
-    buttonExcluir.setEnabled(false);
+    buttonExcluir.setName("buttonExcluir"); // NOI18N
     buttonExcluir.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         buttonExcluirActionPerformed(evt);
@@ -218,6 +222,7 @@ public class FramePermissao extends javax.swing.JDialog {
     buttonSair.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
     buttonSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432226915_22_exit.png"))); // NOI18N
     buttonSair.setText("Sair");
+    buttonSair.setName("buttonSair"); // NOI18N
     buttonSair.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         buttonSairActionPerformed(evt);
@@ -225,13 +230,11 @@ public class FramePermissao extends javax.swing.JDialog {
     });
     jPanel2.add(buttonSair, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, 80, 25));
 
-    comboUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-    comboUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-    jPanel2.add(comboUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 180, 30));
+    comboUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+    jPanel2.add(comboUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 180, 30));
 
-    comboJanela.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-    comboJanela.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-    jPanel2.add(comboJanela, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 180, 30));
+    comboWindow.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+    jPanel2.add(comboWindow, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 180, 30));
 
     jTabbedPane1.addTab("Cadastro", jPanel2);
 
@@ -245,6 +248,7 @@ public class FramePermissao extends javax.swing.JDialog {
     if (evt.getClickCount() == 2) {
       int linha = tablePermissoes.getSelectedRow();
       Permission permissao = Permission.findById(tablePermissoes.getValueAt(linha, 0));
+      System.out.println(permissao);
       if (permissao != null) {
         fillForm(permissao);
       }
@@ -258,35 +262,24 @@ public class FramePermissao extends javax.swing.JDialog {
   }//GEN-LAST:event_txtPesquisaKeyPressed
 
   private void buttonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNovoActionPerformed
-    //preparaForm("novo");
+    preparaForm("novo");
   }//GEN-LAST:event_buttonNovoActionPerformed
 
   private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
-    //preparaForm("alterar");
+    preparaForm("alterar");
   }//GEN-LAST:event_buttonEditActionPerformed
 
   private void buttonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvarActionPerformed
-    //    String wSenha = String.valueOf(txtSenha.getPassword()).toLowerCase();
-    // String vSenha = Funcoes.isNullOrBlank(labelCodigo.getText()) ? Criptografia.criptografar(wSenha) : wSenha;
-    /* salvar(labelCodigo.getText(),
-     UsuarioLogado.getInstance().getId(),
-     txtLogin.getText().toLowerCase(),
-     vSenha,
-     txtNome.getText().toUpperCase(),
-     txtEmail.getText().toLowerCase(),
-     comboNivel.getSelectedIndex(),
-     checkAtivo.isSelected()
-     );
-     */
+    salvar(labelCodigo.getText(), UsuarioLogado.getInstance().getId(), comboUser.getSelectedItem(), comboWindow.getSelectedItem());
   }//GEN-LAST:event_buttonSalvarActionPerformed
 
   private void buttonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarActionPerformed
-    //preparaForm("cancelar");
+    preparaForm("cancelar");
   }//GEN-LAST:event_buttonCancelarActionPerformed
 
   private void buttonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirActionPerformed
     if (Message.confirmation(this, "Tem certeza? \nEssa Operação não pode ser revertida!") == JOptionPane.OK_OPTION) {
-      //excluir(Integer.valueOf(labelCodigo.getText()));
+      excluir(Integer.valueOf(labelCodigo.getText()));
     }
   }//GEN-LAST:event_buttonExcluirActionPerformed
 
@@ -328,8 +321,8 @@ public class FramePermissao extends javax.swing.JDialog {
   private javax.swing.JButton buttonNovo;
   private javax.swing.JButton buttonSair;
   private javax.swing.JButton buttonSalvar;
-  private javax.swing.JComboBox comboJanela;
-  private javax.swing.JComboBox comboUsuario;
+  private javax.swing.JComboBox comboUser;
+  private javax.swing.JComboBox comboWindow;
   private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel2;
   private javax.swing.JLabel jLabel5;
@@ -356,23 +349,19 @@ public class FramePermissao extends javax.swing.JDialog {
     grid.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
   }
 
-  private void fillForm(Permission permissao) {
-    Usuario usuario = permissao.parent(Usuario.class);
-    List<Window> janelas = Window.findAll();
+  private void fillForm(Permission permission) {
     jTabbedPane1.setSelectedIndex(1);
-    labelCodigo.setText(String.format("%03d", permissao.getId()));
-    setaComboUsuario(usuario);
-    setaComboJanela(permissao, janelas);
-    Funcoes.habilitaButtons(buttonEdit, buttonExcluir, buttonNovo, buttonSair);
-    Funcoes.desabilitaButtons(buttonSalvar, buttonCancelar);
+    labelCodigo.setText(String.format("%03d", permission.getId()));
+    fillComboUser(permission);
+    fillComboWindow(permission);
+    preparaForm("fill");
     buttonEdit.requestFocusInWindow();
-
   }
 
   private void fillTable(String user, String order) {
     String ordem = getOrder(order);
     List<Permission> permissoes;
-    if (user != null) {
+    if (user.equals("")) {
       permissoes = Permission.findAll().orderBy(ordem);
     } else {
       permissoes = Permission.find("user_id = ?", Integer.valueOf(user)).orderBy(ordem);
@@ -392,27 +381,137 @@ public class FramePermissao extends javax.swing.JDialog {
     return null;
   }
 
-  private void setaComboUsuario(Usuario usuario) {
-    comboUsuario.removeAllItems();
-    comboUsuario.addItem(new ComboItem(usuario.getString("id"), usuario.getString("nome")));
-  }
-
-  private void setaComboJanela(Permission permissao, List<Window> windows) {
-    ComboItem optionSelected = new ComboItem(permissao.parent(Window.class).getString("id"), permissao.parent(Window.class).getString("description"));
-    int selected;
-    comboJanela.removeAllItems();
-    for (Window window : windows) {
-      comboJanela.addItem(new ComboItem(window.getString("id"), window.getString("description")));
-      if(permissao.getInteger())
-    }
-    
-    setSelectedIndex(permissao);
-  }
-
-  private void setSelectedIndex(Permission permissao) {
+  private void fillComboUser(Permission permission) {
     int index = 0;
     int selectedIndex = 0;
-    
+    Usuario selectedUser = null;
+    if(permission != null) { selectedUser = permission.parent(Usuario.class); }
+    comboUser.removeAllItems();
+    List<Usuario> users = Usuario.findAll();
+    for (Usuario user : users) {
+      comboUser.addItem(user);
+      if(selectedUser != null && user.getInteger("id").equals(selectedUser.getInteger("id"))){
+        selectedIndex = index;
+      }
+      index++;
+    }
+    if(selectedUser != null){
+      comboUser.setSelectedIndex(selectedIndex);
+    }
   }
+  
+  private void fillComboWindow(Permission permission) {
+    int index = 0;
+    int selectedIndex = 0;
+    Window selectedWindow = null;
+    if(permission != null ) { selectedWindow = permission.parent(Window.class); }
+    comboWindow.removeAllItems();
+    List<Window> windows = Window.findAll();
+    for (Window window : windows) {
+      comboWindow.addItem(window);
+      if(selectedWindow != null && window.getInteger("id").equals(selectedWindow.getInteger("id"))){
+        selectedIndex = index;
+      }
+      index++;
+    }
+    if(selectedWindow != null){
+      comboWindow.setSelectedIndex(selectedIndex);
+    }
+  }
+
+  private void preparaForm(String opcao) {
+    switch(opcao){
+    case "fill":    { preparaFill();     break; }
+    case "novo":    { preparaNovo();     break; }
+    case "cancelar":{ preparaCancelar(); break; }
+    case "salvar":  { preparaSalvar();   break; }
+    case "alterar": { preparaAlterar();  break; }
+    
+    }
+  }
+
+  private void preparaNovo() {
+    Permission permission = null;
+    PrepareForm.enableFields(jPanel2);
+    PrepareForm.cleanFields(jPanel2);
+    setNewButtons();
+    Funcoes.limpaLabel(labelCodigo);
+    fillComboUser(permission);
+    fillComboWindow(permission);
+    comboUser.setSelectedIndex(-1);
+    comboWindow.setSelectedIndex(-1);
+    comboUser.requestFocusInWindow();
+  }
+
+  private void preparaCancelar() {
+    PrepareForm.cleanFields(jPanel2);
+    PrepareForm.disableFields(jPanel2);
+    setCancelButtons();
+    Funcoes.limpaLabel(labelCodigo);
+    comboUser.setSelectedIndex(-1);
+    comboWindow.setSelectedIndex(-1);
+    buttonNovo.requestFocusInWindow();
+  }
+
+  private void preparaSalvar() {
+    PrepareForm.disableFields(jPanel2);
+    setSaveButtons();
+  }
+
+  private void preparaAlterar() {
+    PrepareForm.enableFields(jPanel2);
+    Funcoes.habilitaButtons(buttonSalvar, buttonCancelar);
+    Funcoes.desabilitaButtons(buttonEdit, buttonExcluir, buttonNovo, buttonSair);
+  }
+
+  private void setNewButtons() {
+    Funcoes.habilitaButtons(buttonSalvar, buttonCancelar);
+    Funcoes.desabilitaButtons(buttonNovo, buttonEdit, buttonExcluir, buttonSair);
+  }
+
+  private void setCancelButtons() {
+    Funcoes.habilitaButtons(buttonNovo, buttonSair);
+    Funcoes.desabilitaButtons(buttonSalvar, buttonEdit, buttonCancelar, buttonExcluir);
+  }
+
+  private void salvar(String id, Integer loggedUser, Object selectedUser, Object selectedWindow) {
+    Usuario user = (Usuario) selectedUser;
+    Window window = (Window) selectedWindow;
+    Permission permission = new Permission();
+    permission.set("id", id, "user_access_id", loggedUser, "user_id", user.getId(), "window_id", window.getId());
+    try{
+      permission.saveIt();
+      labelCodigo.setText(String.format("%03d", permission.get("id")));
+      preparaForm("salvar");
+      Message.information(this, "Permissão Cadastrada!");
+    } catch (ValidationException e) {
+      Message.validation(this, permission.errors());
+    } catch (Exception e) {
+      Message.exception(this, "Erro: ", e.getLocalizedMessage());
+    }
+  }
+
+  private void setSaveButtons() {
+    Funcoes.desabilitaButtons(buttonSalvar, buttonCancelar);
+    Funcoes.habilitaButtons(buttonNovo, buttonEdit, buttonExcluir, buttonSair);
+  }
+
+  private void preparaFill() {
+    Funcoes.habilitaButtons(buttonEdit, buttonExcluir, buttonNovo, buttonSair);
+    Funcoes.desabilitaButtons(buttonSalvar, buttonCancelar);
+  }
+
+  private void excluir(Integer id) {
+    Permission permission = Permission.findById(id);
+    if(permission.delete()){
+      comboUser.setSelectedIndex(-1);
+      comboWindow.setSelectedIndex(-1);
+      buttonNovo.requestFocusInWindow();
+      Funcoes.limpaLabel(labelCodigo);
+      Message.information(this, "Permissão Excluida!");
+    }
+
+  }
+
 
 }

@@ -31,7 +31,6 @@ public class FrameUsuario extends javax.swing.JDialog {
     formataGrid(tableUsuarios);    
     jTabbedPane1.setSelectedIndex(0);
     Form.preparaIniciar(jPanel2, jTabbedPane1, this);
-    //preparaForm("iniciar");
   }
 
   @SuppressWarnings("unchecked")
@@ -231,7 +230,7 @@ public class FrameUsuario extends javax.swing.JDialog {
     jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 100, 20));
 
     checkAtivo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-    checkAtivo.setLabel("checkAtivo");
+    checkAtivo.setText("");
     jPanel2.add(checkAtivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, 20));
 
     buttonNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1432226514_Add.png"))); // NOI18N
