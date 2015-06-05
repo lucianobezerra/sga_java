@@ -7,6 +7,7 @@ package br.com.sga.model;
 public class UsuarioLogado {
   private Integer id;
   private String name;
+  private Integer nivel;
 
   public static Boolean isLogged() {
     return UsuarioLogadoHolder.instance != null;
@@ -14,6 +15,18 @@ public class UsuarioLogado {
   
   public static UsuarioLogado getInstance(){
     return UsuarioLogadoHolder.instance;
+  }
+  
+  public static Boolean isAdmin(){
+    return (isLogged() && getInstance().getNivel() == 1);
+  }
+  
+  public static Boolean isGerente(){
+    return (isLogged() && getInstance().getNivel() == 2);
+  }
+  
+  public static Boolean isOperador(){
+    return (isLogged() && getInstance().getNivel() == 3);
   }
   
   public Integer getId() {
@@ -31,6 +44,14 @@ public class UsuarioLogado {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Integer getNivel() {
+    return nivel;
+  }
+
+  public void setNivel(Integer nivel) {
+    this.nivel = nivel;
   }
 
   private static class UsuarioLogadoHolder {

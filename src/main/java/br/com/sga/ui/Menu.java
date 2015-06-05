@@ -25,6 +25,8 @@ public class Menu extends javax.swing.JFrame {
     jMenu1 = new javax.swing.JMenu();
     jMenuItem1 = new javax.swing.JMenuItem();
     jMenuItem2 = new javax.swing.JMenuItem();
+    jSeparator1 = new javax.swing.JPopupMenu.Separator();
+    jMenuItem3 = new javax.swing.JMenuItem();
     jMenu2 = new javax.swing.JMenu();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -52,6 +54,15 @@ public class Menu extends javax.swing.JFrame {
       }
     });
     jMenu1.add(jMenuItem2);
+    jMenu1.add(jSeparator1);
+
+    jMenuItem3.setText("Estabelecimentos");
+    jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem3ActionPerformed(evt);
+      }
+    });
+    jMenu1.add(jMenuItem3);
 
     jMenuBar1.add(jMenu1);
 
@@ -65,7 +76,7 @@ public class Menu extends javax.swing.JFrame {
   }// </editor-fold>//GEN-END:initComponents
 
   private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-    if(Funcoes.checaPermissao("frameUsuario")){
+    if(UsuarioLogado.isAdmin() || Funcoes.checaPermissao("frameUsuario")){
       FrameUsuario frameUsuario = new FrameUsuario();
       frameUsuario.setAlwaysOnTop(true);
       frameUsuario.setVisible(true);      
@@ -75,7 +86,7 @@ public class Menu extends javax.swing.JFrame {
   }//GEN-LAST:event_jMenuItem1ActionPerformed
 
   private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-    if(Funcoes.checaPermissao("framePermissao")){
+    if(UsuarioLogado.isAdmin() || Funcoes.checaPermissao("framePermissao")){
       FramePermissao p = new FramePermissao(this, true);
       p.setAlwaysOnTop(true);
       p.setVisible(true);
@@ -83,6 +94,16 @@ public class Menu extends javax.swing.JFrame {
       Message.information(this, "Desculpe, você não tem Permissão para acessar\nessa funcionalidade!");
     }
   }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+  private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    if(UsuarioLogado.isAdmin() || Funcoes.checaPermissao("frameEstabelecimento")){
+      FrameEstabelecimento e = new FrameEstabelecimento(this, true);
+      e.setAlwaysOnTop(true);
+      e.setVisible(true);
+    }else{
+      Message.information(this, "Desculpe, você não tem Permissão para acessar\nessa funcionalidade!");
+    }
+  }//GEN-LAST:event_jMenuItem3ActionPerformed
 
   public static void main(String args[]) {
     try {
@@ -112,6 +133,8 @@ public class Menu extends javax.swing.JFrame {
   private javax.swing.JMenuBar jMenuBar1;
   private javax.swing.JMenuItem jMenuItem1;
   private javax.swing.JMenuItem jMenuItem2;
+  private javax.swing.JMenuItem jMenuItem3;
+  private javax.swing.JPopupMenu.Separator jSeparator1;
   private javax.swing.JLabel labelUsuario;
   // End of variables declaration//GEN-END:variables
 

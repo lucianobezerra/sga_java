@@ -25,9 +25,11 @@ public class Funcoes {
   
   public static boolean checaPermissao(String tela){
     Window window = Window.findFirst("description = ?", tela);
-    
-    Permission permissao = Permission.findFirst("user_id = ? and window_id = ?", UsuarioLogado.getInstance().getId(), window.getId());
-    return permissao != null;
+    Permission permission = null;
+    if(window != null){
+      permission = Permission.findFirst("user_id = ? and window_id = ?", UsuarioLogado.getInstance().getId(), window.getId());
+    }
+    return permission != null;
   }
 
   public static void formatFontGrid(JTable grid, Font font){

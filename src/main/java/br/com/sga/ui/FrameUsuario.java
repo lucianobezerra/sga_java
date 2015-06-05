@@ -309,17 +309,17 @@ public class FrameUsuario extends javax.swing.JDialog {
   }//GEN-LAST:event_buttonNovoActionPerformed
 
   private void buttonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvarActionPerformed
+    int id = labelCodigo.getText() == null ? null : Integer.valueOf(labelCodigo.getText());
+    int ul = UsuarioLogado.getInstance().getId();
     String wSenha = String.valueOf(txtSenha.getPassword()).toLowerCase();
     String vSenha = Funcoes.isNullOrBlank(labelCodigo.getText()) ? Criptografia.criptografar(wSenha) :  wSenha;
-    salvar(labelCodigo.getText(),
-            UsuarioLogado.getInstance().getId(),
-            txtLogin.getText().toLowerCase(),
-            vSenha,
-            txtNome.getText().toUpperCase(),
-            txtEmail.getText().toLowerCase(),
-            comboNivel.getSelectedIndex(),
-            checkAtivo.isSelected()
-    );
+    String login  = txtLogin.getText().toLowerCase();
+    String nome   = txtNome.getText().toUpperCase();
+    String email  = txtEmail.getText().toLowerCase();
+    int nivel     = comboNivel.getSelectedIndex();
+    Boolean ativo = checkAtivo.isSelected();
+    String msg    = labelCodigo.getText() == null ? "Usuário Cadastrado!" : "Usuário Atualizado!";
+    saveIt(id, ul, login, vSenha, nome, email, nivel, ativo, msg);
   }//GEN-LAST:event_buttonSalvarActionPerformed
 
   private void buttonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarActionPerformed
@@ -421,25 +421,18 @@ public class FrameUsuario extends javax.swing.JDialog {
 
   private void preparaIniciar() {
     Form.preparaIniciar(jPanel2, jTabbedPane1, this);
-    /*
-    PrepareForm.disableFields(jPanel2);
-    PrepareForm.cleanFields(jPanel2);
-    Funcoes.desabilitaButtons(buttonCancelar, buttonEdit, buttonExcluir, buttonSalvar);
-    Funcoes.limpaLabel(labelCodigo);
-    Funcoes.habilitaButtons(buttonNovo, buttonSair);
-    jTabbedPane1.setSelectedIndex(0);
-   */
     txtPesquisa.requestFocusInWindow();
   }
 
-  private void salvar(String vCodigo, int vUser, String vLogin, String vSenha, String vNome, String vEmail, int vNivel, boolean vAtivo) {
+  private void saveIt(int id, int ul, String login, String vSenha, String nome, String email, int nivel, Boolean ativo, String msg) {
     Usuario usuario = new Usuario();
-    usuario.set("id", vCodigo, "user_id", vUser, "login", vLogin, "senha", vSenha, "nome", vNome, "email", vEmail, "nivel", vNivel, "ativo", vAtivo);
-    try {
-      usuario.saveIt();
-      labelCodigo.setText(String.format("%03d", usuario.get("id")));
-      preparaForm("salvar");
-      Message.information(this, "Usuário Cadastrado!");
+    try{
+      usuario.set("id", id, "user_id", ul, "login", login, "senha", vSenha, "nome", nome, "email", email, "nivel", nivel, "ativo", ativo);
+      if(usuario.saveIt()){
+        labelCodigo.setText(String.format("%03d", usuario.get("id")));
+        preparaForm("salvar");
+        Message.information(this, msg);
+      }
     } catch (ValidationException e) {
       Message.validation(this, usuario.errors());
     } catch (Exception e) {
@@ -543,4 +536,5 @@ public class FrameUsuario extends javax.swing.JDialog {
     List<Usuario> usuarios = Usuario.findAll();
     return usuarios.size() <= 1;
   }
+
 }

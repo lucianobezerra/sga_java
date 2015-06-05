@@ -248,7 +248,6 @@ public class FramePermissao extends javax.swing.JDialog {
     if (evt.getClickCount() == 2) {
       int linha = tablePermissoes.getSelectedRow();
       Permission permissao = Permission.findById(tablePermissoes.getValueAt(linha, 0));
-      System.out.println(permissao);
       if (permissao != null) {
         fillForm(permissao);
       }
@@ -270,7 +269,12 @@ public class FramePermissao extends javax.swing.JDialog {
   }//GEN-LAST:event_buttonEditActionPerformed
 
   private void buttonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvarActionPerformed
-    salvar(labelCodigo.getText(), UsuarioLogado.getInstance().getId(), comboUser.getSelectedItem(), comboWindow.getSelectedItem());
+    Integer id      = labelCodigo.getText() == null ? null : Integer.valueOf(labelCodigo.getText());
+    String msg      = labelCodigo.getText() == null ? "Permissão Cadastrada!" : "Permissão Atualizada!";
+    int user        = UsuarioLogado.getInstance().getId();
+    Usuario usuario = (Usuario) comboUser.getSelectedItem();
+    Window window   = (Window)  comboWindow.getSelectedItem();
+    saveIt(id, user, usuario, window, msg);
   }//GEN-LAST:event_buttonSalvarActionPerformed
 
   private void buttonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarActionPerformed
@@ -474,16 +478,15 @@ public class FramePermissao extends javax.swing.JDialog {
     Funcoes.desabilitaButtons(buttonSalvar, buttonEdit, buttonCancelar, buttonExcluir);
   }
 
-  private void salvar(String id, Integer loggedUser, Object selectedUser, Object selectedWindow) {
-    Usuario user = (Usuario) selectedUser;
-    Window window = (Window) selectedWindow;
+  private void saveIt(Integer id, int user, Usuario usuario, Window window, String msg) {
     Permission permission = new Permission();
-    permission.set("id", id, "user_access_id", loggedUser, "user_id", user.getId(), "window_id", window.getId());
     try{
-      permission.saveIt();
-      labelCodigo.setText(String.format("%03d", permission.get("id")));
-      preparaForm("salvar");
-      Message.information(this, "Permissão Cadastrada!");
+      permission.set("id", id, "user_access_id", user, "user_id", usuario.getId(), "window_id", window.getId());
+      if(permission.saveIt()){
+        labelCodigo.setText(String.format("%03d", permission.get("id")));
+        preparaForm("salvar");
+        Message.information(this, msg);
+      }
     } catch (ValidationException e) {
       Message.validation(this, permission.errors());
     } catch (Exception e) {
@@ -512,6 +515,5 @@ public class FramePermissao extends javax.swing.JDialog {
     }
 
   }
-
 
 }

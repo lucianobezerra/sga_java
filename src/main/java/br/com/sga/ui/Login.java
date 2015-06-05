@@ -73,6 +73,7 @@ public class Login extends javax.swing.JFrame {
     if (usuario != null) {
       UsuarioLogado.getInstance().setId(usuario.getInteger("id"));
       UsuarioLogado.getInstance().setName(usuario.getString("nome"));
+      UsuarioLogado.getInstance().setNivel(usuario.getInteger("nivel"));
       this.dispose();
       Menu menu = new Menu();
       menu.setVisible(true);
