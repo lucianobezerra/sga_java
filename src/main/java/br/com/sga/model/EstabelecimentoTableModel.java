@@ -11,7 +11,7 @@ import javax.swing.table.AbstractTableModel;
 public class EstabelecimentoTableModel extends AbstractTableModel {
 
   private final List<Estabelecimento> estabelecimentos;
-  private final String[] colunas = {"Cód", "Cnes", "Descrição"};
+  private final String[] colunas = {"Cód", "Cnes", "Razão", "Ativo"};
 
   public EstabelecimentoTableModel() {
     this.estabelecimentos = new ArrayList<>();

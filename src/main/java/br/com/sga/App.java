@@ -24,7 +24,7 @@ public class App {
       public void run() {
         Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://127.0.0.1/db_sga", "root", "mysql");
         //insereUsuario();
-        listaEstabelecimentos();
+        //listaEstabelecimentos();
         Login login = new Login();
         login.setVisible(true);
       }

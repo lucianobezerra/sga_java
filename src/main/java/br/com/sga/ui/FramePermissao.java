@@ -353,7 +353,7 @@ public class FramePermissao extends javax.swing.JDialog {
     grid.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
   }
 
-  private void fillForm(Permission permission) {
+    private void fillForm(Permission permission) {
     jTabbedPane1.setSelectedIndex(1);
     labelCodigo.setText(String.format("%03d", permission.getId()));
     fillComboUser(permission);

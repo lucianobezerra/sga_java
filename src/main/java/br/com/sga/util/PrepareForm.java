@@ -1,8 +1,10 @@
 package br.com.sga.util;
 
+import br.com.sga.ui.DecimalFormattedField;
 import java.awt.Component;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -18,6 +20,12 @@ public class PrepareForm {
       Component component = panel.getComponent(i);
       if (component instanceof JTextField) {
         JTextField textField = (JTextField) component;
+        textField.setText(null);
+      }else if (component instanceof JFormattedTextField) {
+        JFormattedTextField textField = (JFormattedTextField) component;
+        textField.setText(null);
+      }else if (component instanceof DecimalFormattedField) {
+        DecimalFormattedField textField = (DecimalFormattedField) component;
         textField.setText(null);
       } else if (component instanceof JComboBox) {
         JComboBox comboField = (JComboBox) component;
