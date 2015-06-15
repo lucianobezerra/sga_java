@@ -21,7 +21,7 @@ public class Message {
   }
 
   public static int confirmation(Component parent, String message) {
-    return JOptionPane.showConfirmDialog(parent, message, "Confirmação", JOptionPane.YES_NO_OPTION);
+    return JOptionPane.showConfirmDialog(parent, message, "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
   }
 
   public static void information(Component parent, String message) {

@@ -301,8 +301,8 @@ public class FrameEstabelecimento extends javax.swing.JDialog {
     String cnes     = txtCnes.getText();
     String razao    = txtRazao.getText().toUpperCase();
     String fantasia = txtFantasia.getText().toUpperCase();
-    Double vTeto    = Double.valueOf(txtVTeto.getText());
-    Double vMedio   = Double.valueOf(txtVMedio.getText());
+    Double vTeto    = Double.parseDouble(txtVTeto.getText().replace(".", "").replace(",", "."));
+    Double vMedio   = Double.parseDouble(txtVMedio.getText().replace(".", "").replace(",", "."));
     Boolean vAih    = checkAih.isSelected();
     Boolean vApac   = checkApac.isSelected();
     Boolean vAtivo  = checkAtivo.isSelected();
@@ -322,8 +322,11 @@ public class FrameEstabelecimento extends javax.swing.JDialog {
   }//GEN-LAST:event_buttonCancelarActionPerformed
 
   private void buttonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirActionPerformed
-    if (Message.confirmation(this, "Tem certeza? \nEssa Operação não pode ser revertida!") == JOptionPane.OK_OPTION) {
+    int answer =  Message.confirmation(this, "Você tem certeza disso?\nEssa operação não poderá ser desfeita!");
+    if (answer == JOptionPane.YES_OPTION) {
       excluir(Integer.valueOf(labelCodigo.getText()));
+    } else {
+      JOptionPane.showMessageDialog(getParent(), "Ação Cancelada!", "Atenção", JOptionPane.PLAIN_MESSAGE);
     }
   }//GEN-LAST:event_buttonExcluirActionPerformed
 
@@ -434,6 +437,7 @@ public class FrameEstabelecimento extends javax.swing.JDialog {
       case "novo": { preparaNovo(); break; }
       case "alterar": { preparaAlterar(); break; }
       case "cancelar": { preparaCancelar(); break; }
+      case "salvar": { preparaSalvar(); break; }
     }
   }
 
@@ -442,20 +446,26 @@ public class FrameEstabelecimento extends javax.swing.JDialog {
     Funcoes.desabilitaButtons(buttonSalvar, buttonCancelar);
   }
 
-  private void excluir(Integer valueOf) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  private void excluir(Integer id) {
+    Estabelecimento estabelecimento = Estabelecimento.findById(id);
+    if(estabelecimento.delete()){
+      PrepareForm.cleanFields(jPanel2);
+      txtVMedio.setText("0.00");
+      txtVTeto.setText("0.00");
+      Buttons.setDeleteButtons(buttonSalvar, buttonCancelar, buttonNovo, buttonEdit, buttonExcluir, buttonSair);
+      Funcoes.limpaLabel(labelCodigo);
+    } else {
+      JOptionPane.showMessageDialog(this, "Não foi possível excluir o Estabelecimento", "Erro", JOptionPane.ERROR_MESSAGE);
+    }    
   }
 
   private void preparaNovo() {
     PrepareForm.enableFields(jPanel2);
     PrepareForm.cleanFields(jPanel2);
+    txtVMedio.setText("0.00");
+    txtVTeto.setText("0.00");
     Buttons.setNewButtons(buttonSalvar, buttonCancelar, buttonNovo, buttonEdit, buttonExcluir, buttonSair);
     Funcoes.limpaLabel(labelCodigo);
-  }
-
-  private void setCancelButtons() {
-    Funcoes.habilitaButtons(buttonNovo, buttonSair);
-    Funcoes.desabilitaButtons(buttonSalvar, buttonEdit, buttonCancelar, buttonExcluir);
   }
 
   private void preparaAlterar() {
@@ -467,8 +477,8 @@ public class FrameEstabelecimento extends javax.swing.JDialog {
     PrepareForm.cleanFields(jPanel2);
     PrepareForm.disableFields(jPanel2);
     labelCodigo.setText(null);
-    txtVTeto.setValue(null);
-    txtVMedio.setValue(null);
+    txtVTeto.setValue("0.00");
+    txtVMedio.setValue("0.00");
     Buttons.setCancelButtons(buttonSalvar, buttonCancelar, buttonNovo, buttonEdit, buttonExcluir, buttonSair);
     jTabbedPane1.setSelectedIndex(0);
   }
@@ -476,12 +486,22 @@ public class FrameEstabelecimento extends javax.swing.JDialog {
   private void saveIt(Integer id, int user, String cnes, String razao, String fantasia, Double vTeto, Double vMedio, Boolean vAih, Boolean vApac, Boolean vAtivo, String msg) {
     Estabelecimento estabelecimento = new Estabelecimento();
     try{
-      estabelecimento.set("id", id, "user_id", user);
+      estabelecimento.set("id", id, "user_id", user, "cnes", cnes, "razao", razao, "fantasia", fantasia, "valorteto", vTeto, "valormedio", vMedio, "emiteaih", vAih, "emiteapac", vApac, "ativo", vAtivo);
+      if(estabelecimento.saveIt()){
+        labelCodigo.setText(String.format("%03d", estabelecimento.get("id")));
+        preparaForm("salvar");
+        Message.information(this, msg);
+      }
     } catch (ValidationException e) {
       Message.validation(this, estabelecimento.errors());
     } catch (Exception e) {
       Message.exception(this, "Erro: ", e.getLocalizedMessage());
     }
+  }
+
+  private void preparaSalvar() {
+    PrepareForm.disableFields(jPanel2);
+    Buttons.setSaveButtons(buttonSalvar, buttonCancelar, buttonNovo, buttonEdit, buttonExcluir, buttonSair);
   }
 
 }

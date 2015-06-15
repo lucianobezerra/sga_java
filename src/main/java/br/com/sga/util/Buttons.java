@@ -36,4 +36,24 @@ public class Buttons {
       }
     }
   }
+
+  public static void setSaveButtons(JButton ... buttons) {
+    for (JButton button : buttons) {
+      if(button.getName().equals("buttonSalvar") || button.getName().equals("buttonCancelar")){
+        button.setEnabled(false);
+      } else{
+        button.setEnabled(true);
+      }
+    }
+  }
+
+  public static void setDeleteButtons(JButton ... buttons) {
+    for (JButton button : buttons) {
+      if(button.getName().equals("buttonSalvar") || button.getName().equals("buttonCancelar") || button.getName().equals("buttonExcluir")){
+        button.setEnabled(false);
+      } else{
+        button.setEnabled(true);
+      }
+    }
+  }
 }

@@ -30,7 +30,7 @@ public class PrepareForm {
       } else if (component instanceof JComboBox) {
         JComboBox comboField = (JComboBox) component;
         if (comboField.getItemCount() > 0) {
-          comboField.setSelectedIndex(0);
+          comboField.setSelectedIndex(-1);
         }
       } else if (component instanceof JCheckBox) {
         JCheckBox checkField = (JCheckBox) component;
