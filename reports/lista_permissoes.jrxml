@@ -4,19 +4,13 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="listaPermissoes" class="java.util.List" isForPrompting="false"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/luciano/projetos/java/sga/reports/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="localizacao_sub_report" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
-		<![CDATA[SELECT
-     users.`id`,
-     users.`login`,
-     users.`nome`,
-     users.`email`,
-     windows.`description`
-FROM
-     `users` users INNER JOIN `users_windows` users_windows ON users.`id` = users_windows.`user_id`
-     INNER JOIN `windows` windows ON users_windows.`window_id` = windows.`id`
-ORDER BY
-     users.id ASC,
-     windows.id ASC]]>
+		<![CDATA[select * from users]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -30,25 +24,40 @@ ORDER BY
 	<field name="email" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="description" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<group name="usuarios">
+	<group name="cliente">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
-			<band height="31">
+			<band height="27">
 				<staticText>
-					<reportElement x="0" y="17" width="65" height="14" uuid="66f9dc87-02c1-40cb-bb53-38b72d81621e"/>
-					<text><![CDATA[Permissao:]]></text>
+					<reportElement x="0" y="15" width="555" height="12" uuid="fef61200-a85a-4d4e-b277-57b6406c276f"/>
+					<textElement>
+						<font fontName="Courier New"/>
+					</textElement>
+					<text><![CDATA[----------------------------------------------------------------------------------------------]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="0" y="4" width="65" height="14" uuid="bd03cb31-f0ec-43e6-a38f-8d26def824e8"/>
-					<text><![CDATA[Usuário:]]></text>
+					<reportElement x="0" y="6" width="25" height="14" uuid="3821091c-5898-488b-a719-5611eb0f42c7"/>
+					<text><![CDATA[Cod]]></text>
 				</staticText>
-				<textField>
-					<reportElement x="65" y="4" width="212" height="14" uuid="16dc5762-2b7f-4b20-a89b-3d78709115f1"/>
-					<textFieldExpression><![CDATA[$F{login} + " : " + $F{nome}]]></textFieldExpression>
-				</textField>
+				<staticText>
+					<reportElement x="25" y="6" width="100" height="14" uuid="864641d6-2c69-4784-9046-671a995639cd"/>
+					<text><![CDATA[Login]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="125" y="6" width="196" height="14" uuid="f101ad4d-20a2-40f4-af29-3ba7096e25ce"/>
+					<text><![CDATA[Nome]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="321" y="6" width="100" height="14" uuid="c1235b34-5dc4-4fce-905e-e5e9e2b6d056"/>
+					<text><![CDATA[email]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="0" width="555" height="12" uuid="fa42587f-284a-4724-b533-775f8aba851c"/>
+					<textElement>
+						<font fontName="Courier New"/>
+					</textElement>
+					<text><![CDATA[----------------------------------------------------------------------------------------------]]></text>
+				</staticText>
 			</band>
 		</groupHeader>
 	</group>
@@ -56,7 +65,7 @@ ORDER BY
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="43" splitType="Stretch">
+		<band height="40" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="277" height="14" uuid="328f3e1a-e603-4a81-a5db-1a55fbb41d75"/>
 				<text><![CDATA[SISTEMA DE GERENCIAMENTO DE AUTORIZAÇÕES]]></text>
@@ -74,7 +83,7 @@ ORDER BY
 				<text><![CDATA[LISTAGEM DE PERMISSAO POR USUARIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="29" width="555" height="14" uuid="3a12f99b-3308-4a5c-95f1-31465ccee02a"/>
+				<reportElement x="0" y="26" width="555" height="14" uuid="3a12f99b-3308-4a5c-95f1-31465ccee02a"/>
 				<textElement>
 					<font fontName="Courier New"/>
 				</textElement>
@@ -88,11 +97,43 @@ ORDER BY
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="14" splitType="Stretch">
+		<band height="55" splitType="Stretch">
 			<textField>
-				<reportElement x="65" y="0" width="297" height="14" uuid="935b05f0-5885-4968-b473-fa492955d304"/>
-				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+				<reportElement x="0" y="0" width="25" height="14" uuid="d27a3b91-4733-4778-aeb8-0f31b9cbba82"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="25" y="0" width="100" height="14" uuid="acce05f9-e852-4d6f-a26c-a78594f173f5"/>
+				<textFieldExpression><![CDATA[$F{login}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="125" y="0" width="196" height="14" uuid="12e8dfff-b7c2-4d01-baa6-61d8e74fd20b"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="0" width="203" height="14" uuid="797e2b87-c5cb-4034-ae5a-a7976ee9aadd"/>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="40" width="555" height="15" uuid="561ec4c8-822e-4891-a613-26b4c9de4db3"/>
+				<subreportParameter name="user_id">
+					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+"lista_permissoes_subreport.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="72" y="14" width="100" height="14" uuid="c0853d21-321b-46f5-9daa-c0f7b970d744"/>
+				<text><![CDATA[PERMISSÕES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="72" y="28" width="303" height="12" uuid="1faf5278-8c4d-4e59-a21f-3186c4c97ecd"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<text><![CDATA[--------------------------------------------------]]></text>
+			</staticText>
 		</band>
 	</detail>
 </jasperReport>

@@ -1,11 +1,14 @@
 package br.com.sga.ui;
 
+import br.com.sga.model.Usuario;
 import br.com.sga.model.UsuarioLogado;
+import br.com.sga.model.Window;
 import br.com.sga.util.Funcoes;
 import br.com.sga.util.Message;
 import br.com.sga.util.Report;
 import java.awt.EventQueue;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
