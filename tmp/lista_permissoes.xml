@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<usuarios>
+  <usuario>
+    <ativo>true</ativo>
+    <created_at>2015-06-04 11:34:11.0</created_at>
+    <email>contato@lucianobezerra.eti.br</email>
+    <id>1</id>
+    <login>luciano</login>
+    <nivel>1</nivel>
+    <nome>Luciano Bezerra</nome>
+    <senha>8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92</senha>
+    <user_id>1</user_id>
+    <windows>
+      <window>
+        <created_at>2015-06-04 11:34:11.0</created_at>
+        <description>frameUsuario</description>
+        <id>1</id>
+        <user_id>1</user_id>
+      </window>
+      <window>
+        <created_at>2015-06-04 11:34:11.0</created_at>
+        <description>framePermissao</description>
+        <id>2</id>
+        <user_id>1</user_id>
+      </window>
+      <window>
+        <created_at>2015-06-14 17:08:27.0</created_at>
+        <description>frameCompetencia</description>
+        <id>3</id>
+        <user_id>1</user_id>
+      </window>
+    </windows>
+  </usuario>
+  <usuario>
+    <ativo>true</ativo>
+    <created_at>2015-06-04 12:02:46.0</created_at>
+    <email>al.lucas2014@hotmail.com</email>
+    <id>3</id>
+    <login>lucas</login>
+    <nivel>2</nivel>
+    <nome>ANDERSON LUCAS</nome>
+    <senha>7CADAB457AD8D811F134612436DAAA5E5914B20DC2502865F714035B0F267680</senha>
+    <user_id>1</user_id>
+  </usuario>
+  <usuario>
+    <ativo>true</ativo>
+    <created_at>2015-06-04 17:43:48.0</created_at>
+    <email>felipe@oresto.com</email>
+    <id>4</id>
+    <login>felipe</login>
+    <nivel>2</nivel>
+    <nome>MARCOS FELIPE</nome>
+    <senha>2BD2D3A31934D76198ACC030CACA4C31965474FE5FA48F35FEF79D0FD74EE1B2</senha>
+    <user_id>1</user_id>
+  </usuario>
+</usuarios>
+

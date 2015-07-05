@@ -3,7 +3,9 @@ package br.com.sga.ui;
 import br.com.sga.model.UsuarioLogado;
 import br.com.sga.util.Funcoes;
 import br.com.sga.util.Message;
+import br.com.sga.util.Report;
 import java.awt.EventQueue;
+import java.util.HashMap;
 
 /**
  *
@@ -41,6 +43,8 @@ public class Menu extends javax.swing.JFrame {
     jMenu4 = new javax.swing.JMenu();
     jMenuItem12 = new javax.swing.JMenuItem();
     jMenuItem11 = new javax.swing.JMenuItem();
+    jSeparator3 = new javax.swing.JPopupMenu.Separator();
+    jMenuItem14 = new javax.swing.JMenuItem();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     setTitle("Emissão de Autorização");
@@ -129,6 +133,15 @@ public class Menu extends javax.swing.JFrame {
 
     jMenuItem11.setText("Resumo Mensal");
     jMenu4.add(jMenuItem11);
+    jMenu4.add(jSeparator3);
+
+    jMenuItem14.setText("Permissões");
+    jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem14ActionPerformed(evt);
+      }
+    });
+    jMenu4.add(jMenuItem14);
 
     jMenuBar1.add(jMenu4);
 
@@ -181,6 +194,11 @@ public class Menu extends javax.swing.JFrame {
     }
   }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+  private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+    HashMap params = new HashMap();
+    Report.openReport("Permissões", "reports/lista_permissoes.jasper", params);
+  }//GEN-LAST:event_jMenuItem14ActionPerformed
+
   public static void main(String args[]) {
     try {
       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -214,6 +232,7 @@ public class Menu extends javax.swing.JFrame {
   private javax.swing.JMenuItem jMenuItem11;
   private javax.swing.JMenuItem jMenuItem12;
   private javax.swing.JMenuItem jMenuItem13;
+  private javax.swing.JMenuItem jMenuItem14;
   private javax.swing.JMenuItem jMenuItem2;
   private javax.swing.JMenuItem jMenuItem3;
   private javax.swing.JMenuItem jMenuItem4;
@@ -223,7 +242,8 @@ public class Menu extends javax.swing.JFrame {
   private javax.swing.JMenuItem jMenuItem8;
   private javax.swing.JMenuItem jMenuItem9;
   private javax.swing.JPopupMenu.Separator jSeparator1;
-  private javax.swing.JSeparator jSeparator2;
+  private javax.swing.JPopupMenu.Separator jSeparator2;
+  private javax.swing.JPopupMenu.Separator jSeparator3;
   private javax.swing.JLabel labelUsuario;
   // End of variables declaration//GEN-END:variables
 

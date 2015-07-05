@@ -1,6 +1,6 @@
 package br.com.sga.util;
 
-import br.com.sga.model.Permission;
+import br.com.sga.model.UsersWindows;
 import br.com.sga.model.UsuarioLogado;
 import br.com.sga.model.Window;
 import java.awt.Dimension;
@@ -25,9 +25,9 @@ public class Funcoes {
   
   public static boolean checaPermissao(String tela){
     Window window = Window.findFirst("description = ?", tela);
-    Permission permission = null;
+    UsersWindows permission = null;
     if(window != null){
-      permission = Permission.findFirst("user_id = ? and window_id = ?", UsuarioLogado.getInstance().getId(), window.getId());
+      permission = UsersWindows.findFirst("user_id = ? and window_id = ?", UsuarioLogado.getInstance().getId(), window.getId());
     }
     return permission != null;
   }

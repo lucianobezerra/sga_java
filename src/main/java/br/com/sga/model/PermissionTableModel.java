@@ -10,14 +10,14 @@ import javax.swing.table.AbstractTableModel;
  */
 public class PermissionTableModel extends AbstractTableModel {
 
-  private final List<Permission> permissoes;
+  private final List<UsersWindows> permissoes;
   private final String[] colunas = {"Cód", "Usuário", "Tela"};
 
   public PermissionTableModel() {
     this.permissoes = new ArrayList<>();
   }
 
-  public void addRow(Permission p) {
+  public void addRow(UsersWindows p) {
     this.permissoes.add(p);
     this.fireTableDataChanged();
   }
@@ -57,7 +57,7 @@ public class PermissionTableModel extends AbstractTableModel {
     this.fireTableDataChanged();
   }
 
-  public Permission get(int linha) {
+  public UsersWindows get(int linha) {
     return this.permissoes.get(linha);
   }
 

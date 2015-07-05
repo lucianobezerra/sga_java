@@ -27,13 +27,19 @@ public class App {
         //listaEstabelecimentos();
         Login login = new Login();
         login.setVisible(true);
+        /*
+        Usuario usuario = Usuario.findById(1);
+        List<Window> projects = usuario.getAll(Window.class);
+        for (Window project : projects) {
+          System.out.println(project);
+        }*/
       }
 
       private void insereUsuario() {
         Usuario usuario = new Usuario();
         usuario.set("user_id", 1, "login", "luciano", "senha", Criptografia.criptografar("123456"), "nome", "Luciano Bezerra", "email", "contato@lucianobezerra.eti.br");
         try {
-          if(usuario.saveIt()){
+          if (usuario.saveIt()) {
             Window.createIt("description", "frameUsuario", "user_id", 1);
             Window.createIt("description", "framePermissao", "user_id", 1);
 

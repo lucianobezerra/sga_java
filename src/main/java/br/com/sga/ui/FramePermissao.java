@@ -1,7 +1,7 @@
 package br.com.sga.ui;
 
-import br.com.sga.model.Permission;
 import br.com.sga.model.PermissionTableModel;
+import br.com.sga.model.UsersWindows;
 import br.com.sga.model.Usuario;
 import br.com.sga.model.UsuarioLogado;
 import br.com.sga.model.Window;
@@ -247,7 +247,7 @@ public class FramePermissao extends javax.swing.JDialog {
   private void tablePermissoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePermissoesMouseClicked
     if (evt.getClickCount() == 2) {
       int linha = tablePermissoes.getSelectedRow();
-      Permission permissao = Permission.findById(tablePermissoes.getValueAt(linha, 0));
+      UsersWindows permissao = UsersWindows.findById(tablePermissoes.getValueAt(linha, 0));
       if (permissao != null) {
         fillForm(permissao);
       }
@@ -353,7 +353,7 @@ public class FramePermissao extends javax.swing.JDialog {
     grid.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
   }
 
-    private void fillForm(Permission permission) {
+    private void fillForm(UsersWindows permission) {
     jTabbedPane1.setSelectedIndex(1);
     labelCodigo.setText(String.format("%03d", permission.getId()));
     fillComboUser(permission);
@@ -364,14 +364,14 @@ public class FramePermissao extends javax.swing.JDialog {
 
   private void fillTable(String user, String order) {
     String ordem = getOrder(order);
-    List<Permission> permissoes;
+    List<UsersWindows> permissoes;
     if (user.equals("")) {
-      permissoes = Permission.findAll().orderBy(ordem);
+      permissoes = UsersWindows.findAll().orderBy(ordem);
     } else {
-      permissoes = Permission.find("user_id = ?", Integer.valueOf(user)).orderBy(ordem);
+      permissoes = UsersWindows.find("user_id = ?", Integer.valueOf(user)).orderBy(ordem);
     }
     model.removeAll();
-    for (Permission permissao : permissoes) {
+    for (UsersWindows permissao : permissoes) {
       model.addRow(permissao);
     }
   }
@@ -385,7 +385,7 @@ public class FramePermissao extends javax.swing.JDialog {
     return null;
   }
 
-  private void fillComboUser(Permission permission) {
+  private void fillComboUser(UsersWindows permission) {
     int index = 0;
     int selectedIndex = 0;
     Usuario selectedUser = null;
@@ -404,7 +404,7 @@ public class FramePermissao extends javax.swing.JDialog {
     }
   }
   
-  private void fillComboWindow(Permission permission) {
+  private void fillComboWindow(UsersWindows permission) {
     int index = 0;
     int selectedIndex = 0;
     Window selectedWindow = null;
@@ -435,7 +435,7 @@ public class FramePermissao extends javax.swing.JDialog {
   }
 
   private void preparaNovo() {
-    Permission permission = null;
+    UsersWindows permission = null;
     PrepareForm.enableFields(jPanel2);
     PrepareForm.cleanFields(jPanel2);
     setNewButtons();
@@ -479,7 +479,7 @@ public class FramePermissao extends javax.swing.JDialog {
   }
 
   private void saveIt(Integer id, int user, Usuario usuario, Window window, String msg) {
-    Permission permission = new Permission();
+    UsersWindows permission = new UsersWindows();
     try{
       permission.set("id", id, "user_access_id", user, "user_id", usuario.getId(), "window_id", window.getId());
       if(permission.saveIt()){
@@ -505,7 +505,7 @@ public class FramePermissao extends javax.swing.JDialog {
   }
 
   private void excluir(Integer id) {
-    Permission permission = Permission.findById(id);
+    UsersWindows permission = UsersWindows.findById(id);
     if(permission.delete()){
       comboUser.setSelectedIndex(-1);
       comboWindow.setSelectedIndex(-1);

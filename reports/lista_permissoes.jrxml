@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="lista_permissoes" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c250fe8d-b288-4a6b-ae45-bb22aecb5e59">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<queryString>
+		<![CDATA[SELECT
+     users.`id`,
+     users.`login`,
+     users.`nome`,
+     users.`email`,
+     windows.`description`
+FROM
+     `users` users INNER JOIN `users_windows` users_windows ON users.`id` = users_windows.`user_id`
+     INNER JOIN `windows` windows ON users_windows.`window_id` = windows.`id`
+ORDER BY
+     users.id ASC,
+     windows.id ASC]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="login" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="usuarios">
+		<groupExpression><![CDATA[$F{id}]]></groupExpression>
+		<groupHeader>
+			<band height="31">
+				<staticText>
+					<reportElement x="0" y="17" width="65" height="14" uuid="66f9dc87-02c1-40cb-bb53-38b72d81621e"/>
+					<text><![CDATA[Permissao:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="4" width="65" height="14" uuid="bd03cb31-f0ec-43e6-a38f-8d26def824e8"/>
+					<text><![CDATA[Usuário:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="65" y="4" width="212" height="14" uuid="16dc5762-2b7f-4b20-a89b-3d78709115f1"/>
+					<textFieldExpression><![CDATA[$F{login} + " : " + $F{nome}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="43" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="277" height="14" uuid="328f3e1a-e603-4a81-a5db-1a55fbb41d75"/>
+				<text><![CDATA[SISTEMA DE GERENCIAMENTO DE AUTORIZAÇÕES]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="487" y="14" width="68" height="14" uuid="ee829f48-02c5-41f8-a59b-74ec409b8a83"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="14" width="487" height="14" uuid="4b8f6773-1043-4930-830b-4df289a18fc1"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LISTAGEM DE PERMISSAO POR USUARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="29" width="555" height="14" uuid="3a12f99b-3308-4a5c-95f1-31465ccee02a"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<text><![CDATA[==============================================================================================]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="487" y="0" width="68" height="14" uuid="30e9d4e1-5f30-435d-900a-2dd09e036ab4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[EMISSÃO:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField>
+				<reportElement x="65" y="0" width="297" height="14" uuid="935b05f0-5885-4968-b473-fa492955d304"/>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
